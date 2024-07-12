@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 import { IsTokenExpired, HandleExpiredToken } from "./jwt";
 
 export const AxiosWithoutToken = axios.create({
-  baseURL: 'https:/infisane.onrender.com/api/v1/',
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -18,7 +18,7 @@ export const AxiosWithToken = () => {
   }
 
   return axios.create({
-    baseURL: 'https:/infisane.onrender.com/api/v1/',
+    baseURL: import.meta.env.VITE_API_BASE_URL,
     headers: {
       "Content-Type": "application/json",
       Authorization: `${token}`,
