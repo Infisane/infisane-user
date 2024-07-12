@@ -9,6 +9,10 @@ import Activities from "./pages/dashboard/activities";
 import Billing from "./pages/dashboard/billing";
 import Support from "./pages/dashboard/support";
 import Profile from "./pages/dashboard/profile";
+import Auth from "./pages/auth";
+import ForgotPassword from "./pages/auth/forgotPassword";
+import SignIn from "./pages/auth/login";
+import SignUp from "./pages/auth/signUp";
 function App() {
   return (
     <>
@@ -33,6 +37,12 @@ function App() {
               <Route path="billing" element={<Billing />} />
               <Route path="support" element={<Support />} />
               <Route path="profile" element={<Profile />} />
+            </Route>
+
+            <Route path="/auth" element={<Auth />}>
+              <Route path="sign-up" element={<SignUp />} />
+              <Route path="sign-in" element={<SignIn />} />
+              <Route path="forgot-password" element={<ForgotPassword />} />
             </Route>
           </Routes>
         </BrowserRouter>

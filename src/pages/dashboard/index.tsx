@@ -1,7 +1,19 @@
 import { Outlet } from "react-router-dom";
 import SideNav from "../../components/SideNav";
+import Cookies from "js-cookie";
+import { useEffect } from "react";
+import { HandleExpiredToken, IsTokenExpired } from "../../lib/jwt";
 
 const Landing = () => {
+  useEffect(() => {
+    const token = Cookies.get("jwtToken");
+    if (!token) {
+      window.location.href = "/auth/sign-in";
+    } else if (IsTokenExpired(token)) {
+      HandleExpiredToken();
+    }
+  }, []);
+
   return (
     <>
       <div className="lg:overflow-hidden lg:h-screen relative">
