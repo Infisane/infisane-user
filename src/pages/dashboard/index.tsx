@@ -21,7 +21,7 @@ const Landing = () => {
           <div className={`col-span-2 h-[85vh]`}>
             <SideNav />
           </div>
-          <div className={`col-span-10 max-h-[85vh] overflow-y-auto`}>
+          <div className={`col-span-10 max-h-[100vh] overflow-y-auto`}>
             <Outlet />
           </div>
         </div>
