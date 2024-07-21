@@ -13,6 +13,7 @@ import Auth from "./pages/auth";
 import ForgotPassword from "./pages/auth/forgotPassword";
 import SignIn from "./pages/auth/login";
 import SignUp from "./pages/auth/signUp";
+import ProjectDetails from "./pages/dashboard/projectDetails";
 function App() {
   return (
     <>
@@ -37,6 +38,8 @@ function App() {
               <Route path="billing" element={<Billing />} />
               <Route path="support" element={<Support />} />
               <Route path="profile" element={<Profile />} />
+              {/* <Route path="*" element={<h1>Page not found</h1>} /> */}
+              <Route path="/project/:id" element={<ProjectDetails />} />
             </Route>
 
             <Route path="/auth" element={<Auth />}>

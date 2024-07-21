@@ -5,9 +5,10 @@ type ModalProps = {
   onClose: () => void;
   children: ReactNode;
   className?: string; // Added prop to accept custom className for the modal container
+  bg?:string;
 };
 
-const CustomModal: React.FC<ModalProps> = ({ isOpen, onClose, children, className }) => {
+const CustomModal: React.FC<ModalProps> = ({ isOpen, onClose, children, className, bg='bg-white' }) => {
   if (!isOpen) return null;
 
   const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -19,10 +20,10 @@ const CustomModal: React.FC<ModalProps> = ({ isOpen, onClose, children, classNam
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-overlayy"
+      className="fixed overflow-auto pt-32 pb-10 inset-0 z-50 flex items-center justify-center bg-overlayy"
       onClick={handleOverlayClick}
     >
-      <div className={`${className} relative bg-white rounded-[8px] shadow-lg w-[90%] p-[24px]`}>
+      <div className={`${className} relative ${bg} rounded-[8px] shadow-lg w-[90%] p-[24px]`}>
         <button
           onClick={onClose}
           className={`absolute top-6 right-6 border-[#475156] text-center flex justify-center items-center rounded-full border-[2px] w-[20px] text-white bg-black h-[20px]`}

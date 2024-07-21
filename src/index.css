@@ -178,3 +178,10 @@
 .hamburger-menu.open .line:nth-child(3) {
   transform: rotate(45deg) translate(6px, -12px);
 }
+
+.chat {
+  background-image: url("../src/assets/chatBg.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
