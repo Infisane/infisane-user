@@ -5,6 +5,7 @@ export default {
     extend: {
       colors: {
         overlayy: "rgba(25, 28, 31, 0.5)",
+        dark: "#1E1E1E",
       },
     },
   },

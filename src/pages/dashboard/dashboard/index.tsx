@@ -9,7 +9,7 @@ import submit from "../../../assets/submit.svg";
 const Dashboard = () => {
   return (
     <>
-      <div className="sticky top-0 w-full bg-[#E9E9E9] min-h-screen">
+      <div className="sticky top-0 w-full min-h-screen">
         <div className="sticky top-0">
           <TopNav title={"Dashboard"} />
         </div>

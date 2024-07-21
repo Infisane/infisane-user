@@ -5,14 +5,14 @@ import { useEffect } from "react";
 import { HandleExpiredToken, IsTokenExpired } from "../../lib/jwt";
 
 const Landing = () => {
-  useEffect(() => {
-    const token = Cookies.get("jwtToken");
-    if (!token) {
-      window.location.href = "/auth/sign-in";
-    } else if (IsTokenExpired(token)) {
-      HandleExpiredToken();
-    }
-  }, []);
+  // useEffect(() => {
+  //   const token = Cookies.get("jwtToken");
+  //   if (!token) {
+  //     window.location.href = "/auth/sign-in";
+  //   } else if (IsTokenExpired(token)) {
+  //     HandleExpiredToken();
+  //   }
+  // }, []);
 
   return (
     <>
@@ -21,7 +21,9 @@ const Landing = () => {
           <div className={`col-span-2 h-[85vh]`}>
             <SideNav />
           </div>
-          <div className={`col-span-10 max-h-[100vh] overflow-y-auto`}>
+          <div
+            className={`col-span-10 max-h-[100vh] overflow-y-auto bg-[#E9E9E9]`}
+          >
             <Outlet />
           </div>
         </div>

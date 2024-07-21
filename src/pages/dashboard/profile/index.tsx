@@ -6,6 +6,7 @@ const Profile = () => {
         <div className="sticky top-0 w-fill">
           <TopNav title={"Profile"} />
         </div>
+
       </>
     );
 }
