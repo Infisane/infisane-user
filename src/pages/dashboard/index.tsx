@@ -22,7 +22,7 @@ const Landing = () => {
             <SideNav />
           </div>
           <div
-            className={`col-span-10 max-h-[100vh] overflow-y-auto bg-[#E9E9E9]`}
+            className={`col-span-10 max-h-[100vh] min-h-[100vh] overflow-y-auto bg-[#E9E9E9]`}
           >
             <Outlet />
           </div>
