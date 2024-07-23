@@ -83,7 +83,7 @@ const Project = () => {
         <CustomModal
           isOpen={show1}
           onClose={handleClose1}
-          className="w-[464px]"
+          className="lg:w-[464px]"
         >
           <p className="text-[20px] font-[600] text-dark mb-2">New Project</p>
           <p className="text-[16px] font-[500] text-[#343A40] mb-[32px]">
@@ -94,9 +94,9 @@ const Project = () => {
             <p className="text-[#343A40] font-[500] mb-[24px]">
               You need to contact us to continue.
             </p>
-            <button className="h-[56px] bg-[#1E1E1E] w-full text-white rounded-[4px]">
+            <Link to={`/project/forms/${1}`} className="h-[56px] w-full flex justify-center items-center bg-[#1E1E1E]  text-white rounded-[4px]">
               Contact
-            </button>
+            </Link>
           </div>
         </CustomModal>
       )}

@@ -29,6 +29,7 @@ const ProjectDetails = () => {
               // }
             }
           };
+          
   return (
     <>
       <div className="min-h-screen pb-[10%]">

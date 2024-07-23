@@ -14,6 +14,7 @@ import ForgotPassword from "./pages/auth/forgotPassword";
 import SignIn from "./pages/auth/login";
 import SignUp from "./pages/auth/signUp";
 import ProjectDetails from "./pages/dashboard/projectDetails";
+import Forms from "./pages/dashboard/forms";
 function App() {
   return (
     <>
@@ -40,6 +41,8 @@ function App() {
               <Route path="profile" element={<Profile />} />
               {/* <Route path="*" element={<h1>Page not found</h1>} /> */}
               <Route path="/project/:id" element={<ProjectDetails />} />
+              <Route path="/project/forms/:id" element={<Forms />}>
+              </Route>
             </Route>
 
             <Route path="/auth" element={<Auth />}>
