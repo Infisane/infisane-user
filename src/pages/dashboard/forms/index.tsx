@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import img from "../../../assets/img.svg";
+import arrouDown from "../../../assets/arrow-down.svg";
 
 const Forms = () => {
   const navigate = useNavigate();
@@ -14,13 +15,14 @@ const Forms = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState<string | null>(null);
 
-   const [image, setImage] = useState<string[]>([]);
+   const [image, setImage] = useState<File | null>();
 
    const photoInput: React.MutableRefObject<HTMLInputElement | null> =
      useRef(null);
    const handleValidChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
      if (e.target.files && e.target.files.length > 0) {
        const file = e.target.files.item(0);
+       setImage(file)
        // if (file instanceof File) {
        //   try {
        //     const downloadURL = await upload(file);
@@ -150,6 +152,7 @@ const Forms = () => {
                     onClick={handleToggle}
                   >
                     {type}
+                    <img src={arrouDown} alt="" />
                   </button>
                 </div>
 
@@ -289,7 +292,7 @@ const Forms = () => {
                         }
                       }}
                     >
-                      {image.length < 1 ? (
+                      {image ? (
                         <>
                           <img src={img} alt="" />
                           <p className="text-[#929FA5] text-center">
@@ -513,7 +516,7 @@ const Forms = () => {
                         }
                       }}
                     >
-                      {image.length < 1 ? (
+                      {image ? (
                         <>
                           <img src={img} alt="" />
                           <p className="text-[#929FA5] text-center">

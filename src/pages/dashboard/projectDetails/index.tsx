@@ -8,7 +8,7 @@ import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
 const ProjectDetails = () => {
-      const [image, setImage] = useState<string[]>([]);
+      const [image, setImage] = useState<File | null>();
 
       const photoInput: React.MutableRefObject<HTMLInputElement | null> =
         useRef(null);
@@ -17,6 +17,7 @@ const ProjectDetails = () => {
           ) => {
             if (e.target.files && e.target.files.length > 0) {
               const file = e.target.files.item(0);
+              setImage(file)
               // if (file instanceof File) {
               //   try {
               //     const downloadURL = await upload(file);
@@ -29,7 +30,7 @@ const ProjectDetails = () => {
               // }
             }
           };
-          
+
   return (
     <>
       <div className="min-h-screen pb-[10%]">
@@ -262,7 +263,7 @@ const ProjectDetails = () => {
                       }
                     }}
                   >
-                    {image.length < 1 ? (
+                    {image ? (
                       <>
                         <img src={img} alt="" />
                         <p className="text-[#929FA5] text-center">
