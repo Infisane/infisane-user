@@ -7,6 +7,9 @@ export default {
         overlayy: "rgba(25, 28, 31, 0.5)",
         dark: "#1E1E1E",
       },
+      backgroundImage: {
+        "custom-gradient": "linear-gradient(0deg, #004A99BF,  #FFFFFFBF)",
+      },
     },
   },
   plugins: [],
