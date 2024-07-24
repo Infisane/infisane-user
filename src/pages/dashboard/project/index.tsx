@@ -10,8 +10,8 @@ import { Link } from "react-router-dom";
 
 const Project = () => {
   const [show, setShow] = useState(false);
-  const [show2, setShow2] = useState(false);
   const [show1, setShow1] = useState(false);
+  const [show2, setShow2] = useState(false);
 
   const handleShow = () => {
     setShow(true);
@@ -22,19 +22,23 @@ const Project = () => {
   };
 
   const handleShow2 = () => {
+    setShow(false)
+    setShow1(false);
     setShow2(true);
   };
 
   const handleClose2 = () => {
-    setShow2(!show);
+    setShow2(!show2);
   };
 
   const handleShow1 = () => {
+    setShow2(false)
+    setShow(false);
     setShow1(true);
   };
 
   const handleClose1 = () => {
-    setShow1(!show);
+    setShow1(!show1);
   };
 
   return (
@@ -105,7 +109,7 @@ const Project = () => {
         <CustomModal
           isOpen={show2}
           onClose={handleClose2}
-          className="w-[75%]"
+          className="lg:w-[75%]"
           bg="bg-[#E9E9E9]"
         >
           <p className="text-[20px] font-[600] text-dark mb-2">New Project</p>

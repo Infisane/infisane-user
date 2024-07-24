@@ -5,10 +5,624 @@ import wifi from "../../../assets/wifi.svg";
 import chip from "../../../assets/chip.svg";
 import angleR from "../../../assets/angleR.svg";
 import angleL from "../../../assets/angleL.svg";
+import check from "../../../assets/check.svg";
+import dot from "../../../assets/dot.png";
+import visaa from "../../../assets/visaa.svg";
+import paypal from "../../../assets/paypal.svg";
+import master from "../../../assets/master.svg";
+import minus from "../../../assets/minus.svg";
+import circle from "../../../assets/tick-circle.svg";
+import CustomModal from "../../../components/Modal";
+import { useState } from "react";
+import add from "../../../assets/add.svg";
 
 const Billing = () => {
+  const [show, setShow] = useState(false);
+  const [show1, setShow1] = useState(false);
+  const [show2, setShow2] = useState(false);
+
+  const handleShow = () => {
+    setShow1(false)
+    setShow2(false)
+    setShow(true);
+  };
+
+  const handleClose = () => {
+    setShow(!show);
+  };
+
+  const handleShow2 = () => {
+    setShow(false);
+    setShow1(false);
+    setShow2(true);
+  };
+
+  const handleClose2 = () => {
+    setShow2(!show2);
+  };
+
+  const handleShow1 = () => {
+    setShow2(false);
+    setShow(false);
+    setShow1(true);
+  };
+
+  const handleClose1 = () => {
+    setShow1(!show1);
+  };
+
   return (
     <>
+      {show && (
+        <CustomModal
+          isOpen={show}
+          onClose={handleClose}
+          className="lg:w-[464px]"
+        >
+          <p className="text-[20px] font-[600] text-dark mb-[32px]">
+            Add Payment Method
+          </p>
+
+          <div className="flex flex-col w-full h-full gap-6 text-dark">
+            <div className="flex w-full justify-between px-[12px] py-[16px] border-[#D7D7D7] border-[2px] rounded-[8px] gap-2 cursor-pointer">
+              <div className="flex items-start gap-2 flex-col">
+                <p className="text-[#1E1E1ECC] text-[12px] font-[500]">
+                  Card Number
+                </p>
+                <input
+                  type="text"
+                  className="text-dark text-[14px] font-[600] border-none outline-none"
+                  placeholder="xxxx xxxx xxxx xxxx"
+                />
+              </div>
+              <img src={master} alt="" />
+            </div>
+            <div className="flex justify-between items-center gap-[24px]">
+              <div className="flex w-1/2 justify-between px-[12px] py-[16px] border-[#D7D7D7] border-[2px] rounded-[8px] gap-2 cursor-pointer">
+                <div className="flex items-start gap-2 flex-col">
+                  <p className="text-[#1E1E1ECC] text-[12px] font-[500]">
+                    Expiration
+                  </p>
+                  <input
+                    type="text"
+                    className="text-dark text-[14px] font-[600] border-none outline-none"
+                    placeholder="02/25"
+                  />
+                </div>
+              </div>
+              <div className="flex w-1/2 justify-between px-[12px] py-[16px] border-[#D7D7D7] border-[2px] rounded-[8px] gap-2 cursor-pointer">
+                <div className="flex items-start gap-2 flex-col">
+                  <p className="text-[#1E1E1ECC] text-[12px] font-[500]">CVC</p>
+                  <input
+                    type="text"
+                    className="text-dark text-[14px] font-[600] border-none outline-none"
+                    placeholder="xxx"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="flex w-full justify-between px-[12px] py-[16px] border-[#D7D7D7] border-[2px] rounded-[8px] gap-2 cursor-pointer">
+              <div className="flex items-start gap-2 flex-col">
+                <p className="text-[#1E1E1ECC] text-[12px] font-[500]">
+                  Cardholder Name{" "}
+                </p>
+                <input
+                  type="text"
+                  className="text-dark text-[14px] font-[600] border-none outline-none"
+                  placeholder="John Johnson"
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-between items-center gap-4">
+              <button onClick={handleClose} className="h-[56px] w-1/2 border-dark border-[2px] font-[600] flex justify-center items-center bg-[#fff]  text-[#808080] rounded-[8px] gap-[10px]">
+                Cancel
+              </button>
+              <button
+                // onClick={handleShow}
+                className="h-[56px] w-1/2 flex justify-center font-[600] items-center bg-[#1E1E1E]  text-white rounded-[8px] gap-[10px]"
+              >
+                <img src={add} alt="" />
+                Add
+              </button>
+            </div>
+          </div>
+        </CustomModal>
+      )}
+
+      {show1 && (
+        <CustomModal
+          isOpen={show1}
+          onClose={handleClose1}
+          className="lg:w-[464px]"
+        >
+          <p className="text-[20px] font-[600] text-dark mb-[32px]">
+            Edit Payment
+          </p>
+          <p className="text-[16px] font-[500] text-[#343A40] mb-[24px]">
+            Available payment method{" "}
+          </p>
+
+          <div className="flex flex-col gap-[24px] w-full">
+            <div className="border-[#007BFF] border-[3px] rounded-[8px] py-4 px-3 flex justify-between items-center">
+              <div className="flex justify-start items-center gap-[6px]">
+                <img src={master} alt="" />
+                <div className="flex flex-col items-start gap-2">
+                  <p className="text-[#1E1E1ECC] font-[500] text-[12px] ">
+                    xxxx xxxx xxxx 0890
+                  </p>
+                  <p className="text-[16px] font-[600] text-dark">
+                    Expiries 02/25
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <img src={circle} alt="" />
+              </div>
+            </div>
+            <div className="border-[#E9E9E9] border-[2px] rounded-[8px] py-4 px-3 flex justify-between items-center">
+              <div className="flex justify-start items-center gap-[6px]">
+                <img src={visaa} alt="" />
+                <div className="flex flex-col items-start gap-2">
+                  <p className="text-[#1E1E1ECC] font-[500] text-[12px] ">
+                    xxxx xxxx xxxx 0890
+                  </p>
+                  <p className="text-[16px] font-[600] text-dark">
+                    Expiries 02/25
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="border-[#E9E9E9] border-[2px] rounded-[8px] py-4 px-3 flex justify-between items-center">
+              <div className="flex justify-start items-center gap-[6px]">
+                <img src={paypal} alt="" />
+                <div className="flex flex-col items-start gap-2">
+                  <p className="text-[#1E1E1ECC] font-[500] text-[12px] ">
+                    xxxx xxxx xxxx 0890
+                  </p>
+                  <p className="text-[16px] font-[600] text-dark">
+                    Expiries 02/25
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-between items-center gap-4">
+              <button className="h-[56px] w-1/2 border-dark border-[2px] font-[600] flex justify-center items-center bg-[#fff]  text-[#808080] rounded-[8px] gap-[10px]">
+                <img src={minus} alt="" />
+                Delete
+              </button>
+              <button
+                onClick={handleShow}
+                className="h-[56px] w-1/2 flex justify-center font-[600] items-center bg-[#1E1E1E]  text-white rounded-[8px] gap-[10px]"
+              >
+                <img src={add} alt="" />
+                Add
+              </button>
+            </div>
+          </div>
+        </CustomModal>
+      )}
+
+      {show2 && (
+        <CustomModal
+          isOpen={show2}
+          onClose={handleClose2}
+          className="lg:w-[75%]"
+          bg="bg-[#E9E9E9]"
+        >
+          <p className="text-[20px] font-[600] text-dark mb-2">
+            Subscription Plans
+          </p>
+          <p className="text-[16px] font-[500] text-[#343A40] mb-[32px]">
+            Logo Design{" "}
+          </p>
+
+          <div className="grid grid-cols-4 gap-4 text-dark">
+            <div className="flex w-full flex-col p-5 bg-[#54A7FF] rounded-[5px] gap-2 cursor-pointer">
+              <div className="bg-[#F1F1F1] text-[#000B33] py-1 px-[9px] w-fit rounded-[4px] font-[600] text-[10px]">
+                BASIC
+              </div>
+              <p className="mt-[10px] font-[300] text-[10px]">
+                Basic Logo Design Plan
+              </p>
+
+              <div className="bg-[#001C80] h-[.5px] w-full my-[15px]"></div>
+              <p className="font-[600] text-[43px] text-[#000B33] leading-9">
+                $50
+              </p>
+              <p className="text-[#000B33] text-[10px] font-[600]">Per logo</p>
+              <div className="bg-[#001C80] h-[.5px] w-full my-[15px]"></div>
+              <div className="flex flex-col gap-[6px] items-start">
+                <div className="flex justify-start items-center">
+                  <img src={check} alt="" />{" "}
+                  <p className="text-[10px] font-[300]">
+                    {" "}
+                    Perfect for startups and small businesses.
+                  </p>
+                </div>
+                <div className="flex justify-start items-center">
+                  <img src={check} alt="" />{" "}
+                  <p className="text-[10px] font-[300]">
+                    {" "}
+                    Receive one custom logo concept.{" "}
+                  </p>
+                </div>
+                <div className="flex justify-start items-center">
+                  <img src={check} alt="" />{" "}
+                  <p className="text-[10px] font-[300]">
+                    {" "}
+                    Up to two revisions included.{" "}
+                  </p>
+                </div>
+                <div>
+                  <div className="flex justify-start items-center">
+                    <img src={check} alt="" />{" "}
+                    <p className="text-[10px] font-[300]">
+                      {" "}
+                      High-resolution files suitable for web use.{" "}
+                    </p>
+                  </div>
+                  <div className="flex justify-start flex-col items-start gap-[5px] mt-[5px]">
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> JPG/JPEG </p>
+                    </div>
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> PNG </p>
+                    </div>{" "}
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> PDF </p>
+                    </div>
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> Mockups </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-[6px]">
+                    <p className="text-[10px] font-[300]">
+                      <span className="font-[500]">NOTE:</span> This will be
+                      available in three colour formats(White, Black and
+                      Coloured)
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-start items-center">
+                  <img src={check} alt="" />{" "}
+                  <p className="text-[10px] font-[300]">
+                    Delivery within 10 business days.{" "}
+                  </p>
+                </div>
+              </div>
+              <button className="text-black border-[2px] border-dark mt-[16px] w-full bg-white text-[10px] font-[700] rounded-[3px] py-[12px]">
+                Active
+              </button>
+            </div>{" "}
+            <div className="flex w-full flex-col p-5 bg-white rounded-[5px] gap-2 cursor-pointer">
+              <div className="bg-[#FFD700] text-[#000B33] py-1 px-[9px] w-fit rounded-[4px] font-[600] text-[10px]">
+                GOLD
+              </div>
+              <p className="mt-[10px] font-[300] text-[10px]">
+                Gold Logo Design Plan
+              </p>
+
+              <div className="bg-[#001C80] h-[.5px] w-full my-[15px]"></div>
+              <p className="font-[600] text-[43px] text-[#000B33] leading-9">
+                $150
+              </p>
+              <p className="text-[#000B33] text-[10px] font-[600]">Per logo</p>
+              <div className="bg-[#001C80] h-[.5px] w-full my-[15px]"></div>
+              <div className="flex flex-col gap-[6px] items-start">
+                <div className="flex justify-start items-center">
+                  <img src={check} alt="" />{" "}
+                  <p className="text-[10px] font-[300]">
+                    {" "}
+                    Ideal for growing businesses{" "}
+                  </p>
+                </div>
+                <div className="flex justify-start items-center">
+                  <img src={check} alt="" />{" "}
+                  <p className="text-[10px] font-[300]">
+                    {" "}
+                    Three custom logo concepts to choose from.{" "}
+                  </p>
+                </div>
+                <div className="flex justify-start items-center">
+                  <img src={check} alt="" />{" "}
+                  <p className="text-[10px] font-[300]">
+                    {" "}
+                    Up to five revisions included.{" "}
+                  </p>
+                </div>
+                <div>
+                  <div className="flex justify-start items-center">
+                    <img src={check} alt="" />{" "}
+                    <p className="text-[10px] font-[300]">
+                      {" "}
+                      High-resolution files suitable for both web and print.{" "}
+                    </p>
+                  </div>
+                  <div className="flex justify-start flex-col items-start gap-[5px] mt-[5px]">
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> JPG/JPEG </p>
+                    </div>
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> PNG </p>
+                    </div>{" "}
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> PDF </p>
+                    </div>
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> Mockups </p>
+                    </div>
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> SVGs </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-start items-center">
+                  <img src={check} alt="" />{" "}
+                  <p className="text-[10px] font-[300]">
+                    Brand guideline document included{" "}
+                  </p>
+                </div>
+                <div className="flex justify-start items-center">
+                  <img src={check} alt="" />{" "}
+                  <p className="text-[10px] font-[300]">
+                    Delivery within 7 business days.{" "}
+                  </p>
+                </div>
+              </div>
+              <button className="bg-black mt-[16px] w-full text-white text-[10px] font-[700] rounded-[3px] py-[12px]">
+                Select Plan
+              </button>
+            </div>{" "}
+            <div className="flex w-full flex-col p-5 bg-white rounded-[5px] gap-2 cursor-pointer">
+              <div className="bg-[#6BFFF6] text-[#000B33] py-1 px-[9px] w-fit rounded-[4px] font-[600] text-[10px]">
+                DIAMOND
+              </div>
+              <p className="mt-[10px] font-[300] text-[10px]">
+                Diamond Logo Design Plan
+              </p>
+
+              <div className="bg-[#001C80] h-[.5px] w-full my-[15px]"></div>
+              <p className="font-[600] text-[43px] text-[#000B33] leading-9">
+                $350
+              </p>
+              <p className="text-[#000B33] text-[10px] font-[600]">Per logo</p>
+              <div className="bg-[#001C80] h-[.5px] w-full my-[15px]"></div>
+              <div className="flex flex-col gap-[6px] items-start">
+                <div className="flex justify-start items-center">
+                  <img src={check} alt="" />{" "}
+                  <p className="text-[10px] font-[300]">
+                    {" "}
+                    Ideal for growing businesses{" "}
+                  </p>
+                </div>
+                <div className="flex justify-start items-center">
+                  <img src={check} alt="" />{" "}
+                  <p className="text-[10px] font-[300]">
+                    {" "}
+                    Three custom logo concepts to choose from{" "}
+                  </p>
+                </div>
+                <div className="flex justify-start items-center">
+                  <img src={check} alt="" />{" "}
+                  <p className="text-[10px] font-[300]">
+                    {" "}
+                    Up to five revisions included.{" "}
+                  </p>
+                </div>
+                <div>
+                  <div className="flex justify-start items-center">
+                    <img src={check} alt="" />{" "}
+                    <p className="text-[10px] font-[300]">
+                      {" "}
+                      High-resolution files suitable for both web and print.{" "}
+                    </p>
+                  </div>
+                  <div className="flex justify-start flex-col items-start gap-[5px] mt-[5px]">
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> JPG/JPEG </p>
+                    </div>
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> PNG </p>
+                    </div>{" "}
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> PDF </p>
+                    </div>
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> Mockups </p>
+                    </div>
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> SVGs </p>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div className="flex justify-start items-center">
+                    <img src={check} alt="" />{" "}
+                    <p className="text-[10px] font-[300]">
+                      {" "}
+                      Print of brand products{" "}
+                    </p>
+                  </div>
+                  <div className="flex justify-start flex-col items-start gap-[5px] mt-[5px]">
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> 1 T-shirt </p>
+                    </div>
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> Face Cap </p>
+                    </div>{" "}
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> Mug </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-start items-center">
+                  <img src={check} alt="" />{" "}
+                  <p className="text-[10px] font-[300]">
+                    Brand guideline document included{" "}
+                  </p>
+                </div>
+                <div className="flex justify-start items-center">
+                  <img src={check} alt="" />{" "}
+                  <p className="text-[10px] font-[300]">
+                    Delivery within 7 business days.{" "}
+                  </p>
+                </div>
+              </div>
+              <button className="bg-black mt-[16px] w-full text-white text-[10px] font-[700] rounded-[3px] py-[12px]">
+                Select Plan
+              </button>
+            </div>{" "}
+            <div className="flex w-full flex-col p-5 bg-white rounded-[5px] gap-2 cursor-pointer">
+              <div className="bg-[#F2ADAD] text-[#000B33] py-1 px-[9px] w-fit rounded-[4px] font-[600] text-[10px]">
+                PLATINUM
+              </div>
+              <p className="mt-[10px] font-[300] text-[10px]">
+                Platinum Logo Design Plan
+              </p>
+
+              <div className="bg-[#001C80] h-[.5px] w-full my-[15px]"></div>
+              <p className="font-[600] text-[43px] text-[#000B33] leading-9">
+                $500
+              </p>
+              <p className="text-[#000B33] text-[10px] font-[600]">Per logo</p>
+              <div className="bg-[#001C80] h-[.5px] w-full my-[15px]"></div>
+              <div className="flex flex-col gap-[6px] items-start">
+                <div className="flex justify-start items-center">
+                  <img src={check} alt="" />{" "}
+                  <p className="text-[10px] font-[300]">
+                    {" "}
+                    Best for established businesses seeking a strong brand
+                    identity{" "}
+                  </p>
+                </div>
+                <div className="flex justify-start items-center">
+                  <img src={check} alt="" />{" "}
+                  <p className="text-[10px] font-[300]">
+                    {" "}
+                    Five custom logo concepts with unlimited revisions{" "}
+                  </p>
+                </div>
+                <div>
+                  <div className="flex justify-start items-center">
+                    <img src={check} alt="" />{" "}
+                    <p className="text-[10px] font-[300]">
+                      {" "}
+                      High-resolution files suitable for web use.{" "}
+                    </p>
+                  </div>
+                  <div className="flex justify-start flex-col items-start gap-[5px] mt-[5px]">
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> JPG/JPEG </p>
+                    </div>
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> PNG </p>
+                    </div>{" "}
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> PDF </p>
+                    </div>
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> Mockups </p>
+                    </div>
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> SVGs </p>
+                    </div>{" "}
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> AI Files </p>
+                    </div>
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> Business Card </p>
+                    </div>
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> Flyers design </p>
+                    </div>
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> Motion design </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-start items-center">
+                  <img src={check} alt="" />{" "}
+                  <p className="text-[10px] font-[300]">
+                    Comprehensive brand guideline document{" "}
+                  </p>
+                </div>
+                <div>
+                  <div className="flex justify-start items-center">
+                    <img src={check} alt="" />{" "}
+                    <p className="text-[10px] font-[300]">
+                      {" "}
+                      Print of brand products{" "}
+                    </p>
+                  </div>
+                  <div className="flex justify-start flex-col items-start gap-[5px] mt-[5px]">
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> 1 T-shirt </p>
+                    </div>
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> Face Cap </p>
+                    </div>{" "}
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> Mug </p>
+                    </div>
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]">
+                        {" "}
+                        100 copies business card print{" "}
+                      </p>
+                    </div>
+                    <div className="flex justify-start gap-[3px] items-center">
+                      <img src={dot} alt="" />{" "}
+                      <p className="text-[10px] font-[300]"> Jotter & Pen </p>
+                    </div>{" "}
+                  </div>
+                </div>
+                <div className="flex justify-start items-center">
+                  <img src={check} alt="" />{" "}
+                  <p className="text-[10px] font-[300]">
+                    Priority customer support{" "}
+                  </p>
+                </div>
+              </div>
+              <button className="bg-black mt-[16px] w-full text-white text-[10px] font-[700] rounded-[3px] py-[12px]">
+                Select Plan
+              </button>
+            </div>{" "}
+          </div>
+        </CustomModal>
+      )}
       <div className="sticky top-0 w-fill">
         <TopNav title={"Billing"} />
       </div>
@@ -223,7 +837,10 @@ const Billing = () => {
                   <p className="text-[#1E1E1E] text-[18px] font-[600]">
                     Payment Method
                   </p>
-                  <button className="text-[12px] font-[600] text-[#888888] underline">
+                  <button
+                    onClick={handleShow1}
+                    className="text-[12px] font-[600] text-[#888888] underline"
+                  >
                     Edit Payment
                   </button>
                 </div>
@@ -281,7 +898,10 @@ const Billing = () => {
                         $50
                       </p>
 
-                      <button className="mt-[10px] text-[10px] text-white h-[20px] rounded-[4px] bg-[#1E1E1E] px-[12px]">
+                      <button
+                        onClick={handleShow2}
+                        className="mt-[10px] text-[10px] text-white h-[20px] rounded-[4px] bg-[#1E1E1E] px-[12px]"
+                      >
                         Upgrade
                       </button>
                     </div>
@@ -303,7 +923,10 @@ const Billing = () => {
                         $200
                       </p>
 
-                      <button className="mt-[10px] text-[10px] text-[#1E1E1E] h-[20px] rounded-[4px] border-[1px] border-[#1E1E1E] px-[12px]">
+                      <button
+                        onClick={handleShow2}
+                        className="mt-[10px] text-[10px] text-[#1E1E1E] h-[20px] rounded-[4px] border-[1px] border-[#1E1E1E] px-[12px]"
+                      >
                         Downgrade
                       </button>
                     </div>
