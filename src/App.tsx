@@ -15,6 +15,9 @@ import SignIn from "./pages/auth/login";
 import SignUp from "./pages/auth/signUp";
 import ProjectDetails from "./pages/dashboard/projectDetails";
 import Forms from "./pages/dashboard/forms";
+import PersonalInfo from "./pages/dashboard/profile/personal-info";
+import Notification from "./pages/dashboard/profile/notification";
+import Security from "./pages/dashboard/profile/security";
 function App() {
   return (
     <>
@@ -38,7 +41,11 @@ function App() {
               <Route path="activities" element={<Activities />} />
               <Route path="billing" element={<Billing />} />
               <Route path="support" element={<Support />} />
-              <Route path="profile" element={<Profile />} />
+              <Route path="profile" element={<Profile />}>
+              <Route path="personal-information" element={<PersonalInfo />} />
+              <Route path="notification-preference" element={<Notification />} />
+              <Route path="security" element={<Security />} />
+              </Route>
               {/* <Route path="*" element={<h1>Page not found</h1>} /> */}
               <Route path="/project/:id" element={<ProjectDetails />} />
               <Route path="/project/forms/:id" element={<Forms />}>
