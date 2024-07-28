@@ -1,5 +1,7 @@
 import { NavLink, useNavigate, useLocation, Link } from "react-router-dom";
 import logo from "../assets/infi.svg";
+import Cookies from "js-cookie";
+
 type Props = {
   isActive: boolean;
 };
@@ -15,7 +17,8 @@ const SideNav = () => {
   };
 
   function handleLogOut() {
-    navigate("/");
+    Cookies.remove("jwtToken")
+    navigate("/auth/sign-in");
   }
 
   console.log(location.pathname);

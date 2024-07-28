@@ -24,7 +24,7 @@ const SignIn = () => {
         status: "success",
         description: data?.message || "Login Successful",
       });
-      navigate("/dashboard");
+      navigate("/");
     },
     //@ts-ignore
     onErrorFn: () => {
