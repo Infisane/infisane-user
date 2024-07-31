@@ -212,6 +212,9 @@ const SignIn = () => {
           <img src={google} alt="" />
           Log in with Google
         </button>
+        <p className="text-[14px] font-[600] pt-[24px] text-center">
+          Don&apos; have an account? <Link to="/auth/sign-up">Sign Up</Link>
+        </p>
       </div>
     </>
   );

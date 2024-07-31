@@ -683,7 +683,7 @@ const Project = () => {
                 </div>
               </div>
               <div>
-                <Apex size={200} percent={90} text="#1E1E1E" strokeWidth={25} />
+                <Apex size={150} percent={90} text="#1E1E1E" strokeWidth={25} />
               </div>
             </div>
           </Link>
@@ -828,7 +828,7 @@ const Project = () => {
               </div>
               <div>
                 <Apex
-                  size={200}
+                  size={150}
                   percent={100}
                   color1="#08FF03"
                   text="#1E1E1E"
@@ -972,7 +972,7 @@ const Project = () => {
                 </div>
               </div>
               <div>
-                <Apex size={200} percent={90} text="#1E1E1E" strokeWidth={25} />
+                <Apex size={150} percent={90} text="#1E1E1E" strokeWidth={25} />
               </div>
             </div>
           </Link>{" "}
@@ -1111,7 +1111,7 @@ const Project = () => {
                 </div>
               </div>
               <div>
-                <Apex size={200} percent={90} text="#1E1E1E" strokeWidth={25} />
+                <Apex size={150} percent={90} text="#1E1E1E" strokeWidth={25} />
               </div>
             </div>
           </Link>

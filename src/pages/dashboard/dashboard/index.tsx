@@ -21,23 +21,23 @@ const Dashboard = () => {
                 Active Projects
               </h1>
               <div className="flex justify-between flex-wrap items-center w-full h-[85%] gap-4">
-                <div className="bg-[#9108A7] w-[32%] rounded-[8px] h-full p-[24px] flex justify-center items-start flex-col gap-[36px]">
+                <div className="bg-[#9108A7] texture w-[32%] rounded-[8px] h-[90%] p-[24px] pb-[10px] flex justify-center items-start flex-col gap-[36px]">
                   <h1 className="text-[24px] font-[600] text-white">
                     Website Design
                   </h1>
                   <Apex />
                 </div>
-                <div className="bg-[#84071D] w-[32%] rounded-[8px] h-full p-[24px] flex justify-center items-start flex-col gap-[36px]">
+                <div className="bg-[#84071D] texture w-[32%] rounded-[8px] h-[90%] p-[24px] pb-[10px] flex justify-center items-start flex-col gap-[36px]">
                   <h1 className="text-[24px] font-[600] text-white">
                     Logo Design
                   </h1>
-                  <Apex />
+                  <Apex percent={40} />
                 </div>
-                <div className="bg-[#0A6708] w-[32%] rounded-[8px] h-full p-[24px] flex justify-center items-start flex-col gap-[36px]">
+                <div className="bg-[#0A6708] texture w-[32%] rounded-[8px] h-[90%] p-[24px] pb-[10px] flex justify-center items-start flex-col gap-[36px]">
                   <h1 className="text-[24px] font-[600] text-white">
                     Graphics Design
                   </h1>
-                  <Apex />
+                  <Apex percent={80} />
                 </div>
               </div>
             </div>

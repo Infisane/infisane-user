@@ -214,7 +214,7 @@ const SideNav = () => {
             </div>
           </NavLink>
 
-          <NavLink style={navLinkStyle} to="/profile" className="w-full">
+          <NavLink style={navLinkStyle} to="/profile/personal-information" className="w-full">
             <div className="flex items-center gap-[15px] p-3">
               <svg
                 width="48"

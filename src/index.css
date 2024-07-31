@@ -186,6 +186,13 @@
   background-size: cover;
 }
 
+.texture {
+  background-image: url("../src/assets/texture.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
 .grad {
    background-image: url("../src/assets/card.png");
   background-repeat: no-repeat;

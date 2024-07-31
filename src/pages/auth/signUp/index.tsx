@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import google from "../../../assets/google.svg";
-import auth from "../../../assets/auth.svg";
 import { useAppToast } from "../../../lib/useAppToast";
 import { userSignUp } from "../../../lib/useAuth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -24,6 +23,7 @@ const SignUp = () => {
   const [country, setCountry] = useState("");
   const [company, setCompany] = useState("");
   const [rolePosition, setRolePosition] = useState("");
+  const [second, setSecond] = useState(false)
 
   const [loading, setLoading] = useState(false);
 
@@ -91,6 +91,7 @@ const SignUp = () => {
         return;
       }
       setStep(2);
+      setSecond(true)
     } else if (step === 2) {
       if (
         street === "" ||
@@ -114,271 +115,336 @@ const SignUp = () => {
 
   return (
     <div className="text-white text-center">
-      <div className="flex justify-center items-center mb-4">
-        <img src={auth} alt="" />
-      </div>
-      <h1 className="text-[18px] font-[600] mb-1">Sign up</h1>
-      <p className="text-[14px] font-[500]">
-        {step === 1 ? "Basic" : step === 2 ? "Address" : "Additional"}{" "}
-        Information
-      </p>
-
-      {step === 1 && (
-        <div className="mt-4 w-full flex flex-col items-start gap-4 z-50 relative">
-          <fieldset className="flex flex-col items-start gap-[6px] w-full">
-            <label htmlFor="">Full Name*</label>
-            <input
-              type="text"
-              className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
-              placeholder="Enter your full name"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-            />
-          </fieldset>
-          <fieldset className="flex flex-col items-start gap-[6px] w-full">
-            <label htmlFor="">User Name*</label>
-            <input
-              type="text"
-              className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
-              placeholder="Enter your user name"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
-            />
-          </fieldset>{" "}
-          <fieldset className="flex flex-col items-start gap-[6px] w-full">
-            <label htmlFor="">Email*</label>
-            <input
-              type="email"
-              className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </fieldset>{" "}
-          <fieldset className="flex flex-col items-start gap-[6px] w-full">
-            <label htmlFor="">Phone Number*</label>
-            <input
-              type="tel"
-              className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
-              placeholder="Enter your phone number"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
-          </fieldset>{" "}
-          <fieldset className="flex flex-col items-start gap-[6px] w-full">
-            <label htmlFor="">Password*</label>
-            <input
-              type="password"
-              className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
-              placeholder="Create a password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <p className="text-[14px]">Must be at least 8 characters</p>
-          </fieldset>
-        </div>
-      )}
-
-      {step === 2 && (
-        <div className="mt-4 w-full flex flex-col items-start gap-4 z-50 relative">
-          <fieldset className="flex flex-col items-start gap-[6px] w-full">
-            <label htmlFor="">Street Address*</label>
-            <input
-              type="text"
-              className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
-              placeholder="Enter your street address"
-              value={street}
-              onChange={(e) => setStreet(e.target.value)}
-            />
-          </fieldset>
-          <fieldset className="flex flex-col items-start gap-[6px] w-full">
-            <label htmlFor="">City*</label>
-            <input
-              type="text"
-              className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
-              placeholder="Enter your city"
-              value={city}
-              onChange={(e) => setCity(e.target.value)}
-            />
-          </fieldset>{" "}
-          <fieldset className="flex flex-col items-start gap-[6px] w-full">
-            <label htmlFor="">State/Province*</label>
-            <input
-              type="text"
-              className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
-              placeholder="Enter your state/province"
-              value={state}
-              onChange={(e) => setState(e.target.value)}
-            />
-          </fieldset>{" "}
-          <fieldset className="flex flex-col items-start gap-[6px] w-full">
-            <label htmlFor="">Postal/ZIP Code *</label>
-            <input
-              type="tel"
-              className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
-              placeholder="Enter your postal/street code "
-              value={postalCode}
-              onChange={(e) => setPostalCode(e.target.value)}
-            />
-          </fieldset>{" "}
-          <fieldset className="flex flex-col items-start gap-[6px] w-full">
-            <label htmlFor="">Country*</label>
-            <input
-              type="text"
-              className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
-              placeholder="Enter your country"
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-            />
-          </fieldset>
-        </div>
-      )}
-
-      {step === 3 && (
-        <div className="mt-4 w-full flex flex-col items-start gap-4 z-50 relative">
-          <fieldset className="flex flex-col items-start gap-[6px] w-full">
-            <label htmlFor="">Company/Organization Name ( Optional )</label>
-            <input
-              type="text"
-              className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
-              placeholder="Enter your company/organization name"
-              value={company}
-              onChange={(e) => setCompany(e.target.value)}
-            />
-          </fieldset>
-          <fieldset className="flex flex-col items-start gap-[6px] w-full">
-            <label htmlFor="">Role/Position ( Optional )</label>
-            <input
-              type="text"
-              className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
-              placeholder="Enter your role/position"
-              value={rolePosition}
-              onChange={(e) => setRolePosition(e.target.value)}
-            />
-          </fieldset>{" "}
-        </div>
-      )}
-      <button
-        className="flex justify-center w-full gap-2 items-center px-[32px] h-[50px] bg-white rounded-[4px] font-[600] text-black mt-[32px] z-50 relative"
-        onClick={handleNext}
-      >
-        {loading && (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="1em"
-            height="1em"
-            viewBox="0 0 24 24"
+      <div className="flex justify-between items-center gap-[14px]">
+        <div>
+          <div
+            className={`h-[36px] w-[36px] rounded-full achieveGradient flex justify-center items-center`}
           >
-            <rect width="2.8" height="12" x="1" y="6" fill="currentColor">
-              <animate
-                id="svgSpinnersBarsScale0"
-                attributeName="y"
-                begin="0;svgSpinnersBarsScale1.end-0.1s"
-                calcMode="spline"
-                dur="0.6s"
-                keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
-                values="6;1;6"
-              />
-              <animate
-                attributeName="height"
-                begin="0;svgSpinnersBarsScale1.end-0.1s"
-                calcMode="spline"
-                dur="0.6s"
-                keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
-                values="12;22;12"
-              />
-            </rect>
-            <rect width="2.8" height="12" x="5.8" y="6" fill="currentColor">
-              <animate
-                attributeName="y"
-                begin="svgSpinnersBarsScale0.begin+0.1s"
-                calcMode="spline"
-                dur="0.6s"
-                keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
-                values="6;1;6"
-              />
-              <animate
-                attributeName="height"
-                begin="svgSpinnersBarsScale0.begin+0.1s"
-                calcMode="spline"
-                dur="0.6s"
-                keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
-                values="12;22;12"
-              />
-            </rect>
-            <rect width="2.8" height="12" x="10.6" y="6" fill="currentColor">
-              <animate
-                attributeName="y"
-                begin="svgSpinnersBarsScale0.begin+0.2s"
-                calcMode="spline"
-                dur="0.6s"
-                keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
-                values="6;1;6"
-              />
-              <animate
-                attributeName="height"
-                begin="svgSpinnersBarsScale0.begin+0.2s"
-                calcMode="spline"
-                dur="0.6s"
-                keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
-                values="12;22;12"
-              />
-            </rect>
-            <rect width="2.8" height="12" x="15.4" y="6" fill="currentColor">
-              <animate
-                attributeName="y"
-                begin="svgSpinnersBarsScale0.begin+0.3s"
-                calcMode="spline"
-                dur="0.6s"
-                keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
-                values="6;1;6"
-              />
-              <animate
-                attributeName="height"
-                begin="svgSpinnersBarsScale0.begin+0.3s"
-                calcMode="spline"
-                dur="0.6s"
-                keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
-                values="12;22;12"
-              />
-            </rect>
-            <rect width="2.8" height="12" x="20.2" y="6" fill="currentColor">
-              <animate
-                id="svgSpinnersBarsScale1"
-                attributeName="y"
-                begin="svgSpinnersBarsScale0.begin+0.4s"
-                calcMode="spline"
-                dur="0.6s"
-                keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
-                values="6;1;6"
-              />
-              <animate
-                attributeName="height"
-                begin="svgSpinnersBarsScale0.begin+0.4s"
-                calcMode="spline"
-                dur="0.6s"
-                keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
-                values="12;22;12"
-              />
-            </rect>
-          </svg>
-        )}
-        {btn}
-      </button>
-      {step === 1 && (
-        <>
-          <div className="flex w-full justify-between items-center gap-2 mt-[32px] mb-[20px]">
-            <div className="w-full h-[1px] bg-[white]"></div>
-            <p className="text-[#71839B] text-[14px] font-[500]">OR</p>
-            <div className="w-full h-[1px] bg-[white]"></div>
+            <div className="h-[24px] w-[24px] rounded-full bg-black flex justify-center items-center text-white text-[16px] font-[800]">
+              1
+            </div>
           </div>
+        </div>
+        <p className="font-[500] text-[14px] hidden lg:block">Basic Information</p>
+        <div className="bg-white h-[2px] w-[10%]"></div>
+        <div>
+          <div
+            className={`h-[36px] w-[36px] rounded-full ${
+              second === true ? "achieveGradient" : "bg-[#808080]"
+            } flex justify-center items-center`}
+          >
+            <div className="h-[24px] w-[24px] rounded-full bg-black flex justify-center items-center text-white text-[16px] font-[800]">
+              2
+            </div>
+          </div>
+        </div>
+        <p className="font-[500] text-[14px] hidden lg:block">Address Information</p>
+        <div className="bg-white h-[2px] w-[10%]"></div>
+        <div>
+          <div
+            className={`h-[36px] w-[36px] rounded-full ${
+              step === 3 ? "achieveGradient" : "bg-[#808080]"
+            } flex justify-center items-center`}
+          >
+            <div className="h-[24px] w-[24px] rounded-full bg-black flex justify-center items-center text-white text-[16px] font-[800]">
+              3
+            </div>
+          </div>
+        </div>
+        <p className="font-[500] text-[14px] hidden lg:block">Additional Information</p>
+      </div>
 
-          <button className="flex justify-center w-full items-center px-[32px] h-[44px] bg-[#111111] rounded-[4px] font-[600] text-white gap-2 border-[#D0D5DD] border-[2px] mt-[32px] z-50 relative">
-            <img src={google} alt="" />
-            Log in with Google
+      <div className="pt-[24px] lg:p-[24px]">
+        <div className="flex w-full flex-col items-start">
+          <h1 className="text-[18px] font-[600] mb-1">Sign up</h1>
+          <p className="text-[14px] font-[500]">
+            {step === 1 ? "Basic" : step === 2 ? "Address" : "Additional"}{" "}
+            Information
+          </p>
+        </div>
+        {step === 1 && (
+          <div className="mt-4 w-full flex flex-col items-start gap-4 z-50 relative">
+            <fieldset className="flex flex-col items-start gap-[6px] w-full">
+              <label htmlFor="">Full Name*</label>
+              <input
+                type="text"
+                className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
+                placeholder="Enter your full name"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+              />
+            </fieldset>
+            <fieldset className="flex flex-col items-start gap-[6px] w-full">
+              <label htmlFor="">User Name*</label>
+              <input
+                type="text"
+                className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
+                placeholder="Enter your user name"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+              />
+            </fieldset>{" "}
+            <fieldset className="flex flex-col items-start gap-[6px] w-full">
+              <label htmlFor="">Email*</label>
+              <input
+                type="email"
+                className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </fieldset>{" "}
+            <fieldset className="flex flex-col items-start gap-[6px] w-full">
+              <label htmlFor="">Phone Number*</label>
+              <input
+                type="tel"
+                className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
+                placeholder="Enter your phone number"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+            </fieldset>{" "}
+            <fieldset className="flex flex-col items-start gap-[6px] w-full">
+              <label htmlFor="">Password*</label>
+              <input
+                type="password"
+                className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
+                placeholder="Create a password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <p className="text-[14px]">Must be at least 8 characters</p>
+            </fieldset>
+          </div>
+        )}
+        {step === 2 && (
+          <div className="mt-4 w-full flex flex-col items-start gap-4 z-50 relative">
+            <fieldset className="flex flex-col items-start gap-[6px] w-full">
+              <label htmlFor="">Street Address*</label>
+              <input
+                type="text"
+                className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
+                placeholder="Enter your street address"
+                value={street}
+                onChange={(e) => setStreet(e.target.value)}
+              />
+            </fieldset>
+            <fieldset className="flex flex-col items-start gap-[6px] w-full">
+              <label htmlFor="">City*</label>
+              <input
+                type="text"
+                className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
+                placeholder="Enter your city"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+              />
+            </fieldset>{" "}
+            <fieldset className="flex flex-col items-start gap-[6px] w-full">
+              <label htmlFor="">State/Province*</label>
+              <input
+                type="text"
+                className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
+                placeholder="Enter your state/province"
+                value={state}
+                onChange={(e) => setState(e.target.value)}
+              />
+            </fieldset>{" "}
+            <fieldset className="flex flex-col items-start gap-[6px] w-full">
+              <label htmlFor="">Postal/ZIP Code *</label>
+              <input
+                type="tel"
+                className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
+                placeholder="Enter your postal/street code "
+                value={postalCode}
+                onChange={(e) => setPostalCode(e.target.value)}
+              />
+            </fieldset>{" "}
+            <fieldset className="flex flex-col items-start gap-[6px] w-full">
+              <label htmlFor="">Country*</label>
+              <input
+                type="text"
+                className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
+                placeholder="Enter your country"
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+              />
+            </fieldset>
+          </div>
+        )}
+        {step === 3 && (
+          <div className="mt-4 w-full flex flex-col items-start gap-4 z-50 relative">
+            <fieldset className="flex flex-col items-start gap-[6px] w-full">
+              <label htmlFor="">Company/Organization Name ( Optional )</label>
+              <input
+                type="text"
+                className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
+                placeholder="Enter your company/organization name"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+              />
+            </fieldset>
+            <fieldset className="flex flex-col items-start gap-[6px] w-full">
+              <label htmlFor="">Role/Position ( Optional )</label>
+              <input
+                type="text"
+                className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
+                placeholder="Enter your role/position"
+                value={rolePosition}
+                onChange={(e) => setRolePosition(e.target.value)}
+              />
+            </fieldset>{" "}
+          </div>
+        )}
+        <div className="flex justify-between items-center gap-[32px]">
+          {step !== 1 && <button
+            className="flex justify-center w-full gap-2 items-center px-[32px] h-[50px] border-white border-[2px] rounded-[4px] font-[600] text-white mt-[32px] z-50 relative"
+            onClick={() => setStep(step - 1)}
+          >
+            Previous
+          </button>}
+          <button
+            className="flex justify-center w-full gap-2 items-center px-[32px] h-[50px] bg-white rounded-[4px] font-[600] text-black mt-[32px] z-50 relative"
+            onClick={handleNext}
+          >
+            {loading && (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="1em"
+                height="1em"
+                viewBox="0 0 24 24"
+              >
+                <rect width="2.8" height="12" x="1" y="6" fill="currentColor">
+                  <animate
+                    id="svgSpinnersBarsScale0"
+                    attributeName="y"
+                    begin="0;svgSpinnersBarsScale1.end-0.1s"
+                    calcMode="spline"
+                    dur="0.6s"
+                    keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                    values="6;1;6"
+                  />
+                  <animate
+                    attributeName="height"
+                    begin="0;svgSpinnersBarsScale1.end-0.1s"
+                    calcMode="spline"
+                    dur="0.6s"
+                    keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                    values="12;22;12"
+                  />
+                </rect>
+                <rect width="2.8" height="12" x="5.8" y="6" fill="currentColor">
+                  <animate
+                    attributeName="y"
+                    begin="svgSpinnersBarsScale0.begin+0.1s"
+                    calcMode="spline"
+                    dur="0.6s"
+                    keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                    values="6;1;6"
+                  />
+                  <animate
+                    attributeName="height"
+                    begin="svgSpinnersBarsScale0.begin+0.1s"
+                    calcMode="spline"
+                    dur="0.6s"
+                    keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                    values="12;22;12"
+                  />
+                </rect>
+                <rect
+                  width="2.8"
+                  height="12"
+                  x="10.6"
+                  y="6"
+                  fill="currentColor"
+                >
+                  <animate
+                    attributeName="y"
+                    begin="svgSpinnersBarsScale0.begin+0.2s"
+                    calcMode="spline"
+                    dur="0.6s"
+                    keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                    values="6;1;6"
+                  />
+                  <animate
+                    attributeName="height"
+                    begin="svgSpinnersBarsScale0.begin+0.2s"
+                    calcMode="spline"
+                    dur="0.6s"
+                    keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                    values="12;22;12"
+                  />
+                </rect>
+                <rect
+                  width="2.8"
+                  height="12"
+                  x="15.4"
+                  y="6"
+                  fill="currentColor"
+                >
+                  <animate
+                    attributeName="y"
+                    begin="svgSpinnersBarsScale0.begin+0.3s"
+                    calcMode="spline"
+                    dur="0.6s"
+                    keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                    values="6;1;6"
+                  />
+                  <animate
+                    attributeName="height"
+                    begin="svgSpinnersBarsScale0.begin+0.3s"
+                    calcMode="spline"
+                    dur="0.6s"
+                    keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                    values="12;22;12"
+                  />
+                </rect>
+                <rect
+                  width="2.8"
+                  height="12"
+                  x="20.2"
+                  y="6"
+                  fill="currentColor"
+                >
+                  <animate
+                    id="svgSpinnersBarsScale1"
+                    attributeName="y"
+                    begin="svgSpinnersBarsScale0.begin+0.4s"
+                    calcMode="spline"
+                    dur="0.6s"
+                    keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                    values="6;1;6"
+                  />
+                  <animate
+                    attributeName="height"
+                    begin="svgSpinnersBarsScale0.begin+0.4s"
+                    calcMode="spline"
+                    dur="0.6s"
+                    keySplines=".36,.61,.3,.98;.36,.61,.3,.98"
+                    values="12;22;12"
+                  />
+                </rect>
+              </svg>
+            )}
+            {btn}
           </button>
-        </>
-      )}
+        </div>
+        {step === 1 && (
+          <>
+            <div className="flex w-full justify-between items-center gap-2 mt-[32px] mb-[20px]">
+              <div className="w-full h-[1px] bg-[white]"></div>
+              <p className="text-[#71839B] text-[14px] font-[500]">OR</p>
+              <div className="w-full h-[1px] bg-[white]"></div>
+            </div>
+            <button className="flex justify-center w-full items-center px-[32px] h-[44px] bg-[#111111] rounded-[4px] font-[600] text-white gap-2 border-[#D0D5DD] border-[2px] mt-[32px] z-50 relative">
+              <img src={google} alt="" />
+              Log in with Google
+            </button>
+          </>
+        )}
+        <p className="text-[14px] font-[600] pt-[24px] text-center">
+          Already have an account? <Link to="/auth/sign-in">Sign In</Link>
+        </p>
+      </div>
     </div>
   );
 };
