@@ -21,7 +21,24 @@ export const AxiosWithToken = () => {
     baseURL: import.meta.env.VITE_API_BASE_URL,
     headers: {
       "Content-Type": "application/json",
-      Authorization: `${token}`,
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const AxiosWithImageToken = () => {
+  const token = Cookies.get("jwtToken");
+
+  if (token && IsTokenExpired(token)) {
+    HandleExpiredToken();
+    return AxiosWithoutToken; // Return an axios instance without token if expired
+  }
+
+  return axios.create({
+    baseURL: import.meta.env.VITE_API_BASE_URL,
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${token}`,
     },
   });
 };

@@ -20,11 +20,11 @@ const SignIn = () => {
     mutationFunction: (x: any) => userLogin(x.email, x.password),
     onSuccessFn: (data) => {
       setLoading(false);
+      navigate("/");
       toast({
         status: "success",
         description: data?.message || "Login Successful",
       });
-      navigate("/");
     },
     //@ts-ignore
     onErrorFn: () => {

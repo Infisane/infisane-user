@@ -33,33 +33,24 @@ export function useAPI() {
       mutationFn: mutationFunction,
       onSuccess: onSuccessFn,
       //@ts-ignore
-      onError: (error: AxiosError) => {
+      onError: (error: AxiosError | any) => {
+        console.log(error);
         let errorMessage = "An error occurred";
+        if (
+          error.response &&
+          error.response.data &&
+          typeof error.response.data === "string"
+        ) {
+          errorMessage = error.response.data;
+        } else if (error.message) {
+          errorMessage = error.message;
+        }
+        toast({ description: errorMessage, status: "error" });
 
-        if (error.response) {
-          const status = error.response.status;
-          errorMessage =
-            //@ts-ignore
-            error.response.data?.message || error.message || errorMessage;
-
-          if (status === 400) {
-            toast({
-              description: errorMessage || "Please check your credentials",
-              status: "error",
-            });
-          } else if (status === 401) {
-            toast({
-              description: errorMessage || "Invalid credentials",
-              status: "error",
-            });
-          } else {
-            toast({
-              description: "An error occurred: " + errorMessage,
-              status: "error",
-            });
-          }
+        if (onErrorFn) {
+          onErrorFn({ message: errorMessage, error }); // Call the provided error handler
         } else {
-          toast({ description: errorMessage, status: "error" });
+          console.log("onErrorFn is not defined."); // Log if onErrorFn is not provided
         }
 
         if (onErrorFn) {

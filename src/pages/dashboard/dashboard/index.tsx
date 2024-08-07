@@ -1,12 +1,23 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
 import TopNav from "../../../components/TopNav";
 import Apex from "../../../components/PieChart";
-import resume from '../../../assets/resume.svg'
+import resume from "../../../assets/resume.svg";
 import pause from "../../../assets/pause.svg";
 import submit from "../../../assets/submit.svg";
-
+import { getAllProjects } from "../../../lib/useUser";
+import { useAPI } from "../../../lib/useApi";
 
 const Dashboard = () => {
+  const { useQuery } = useAPI();
+
+  const { data: projects } = useQuery({
+    queryKey: ["projects"],
+    queryFn: () => getAllProjects(),
+  });
+
+  console.log(projects);
+
   return (
     <>
       <div className="sticky top-0 w-full min-h-screen">
@@ -16,18 +27,43 @@ const Dashboard = () => {
 
         <div className="p-[32px] flex flex-col w-full gap-[24px]">
           <div className="grid grid-cols-11 gap-[24px] h-full w-full">
-            <div className="col-span-8 bg-white rounded-[8px] p-4">
-              <h1 className="pb-4 font-[600] text-[18px] h-[15%]">
+            <div className="col-span-8 bg-white rounded-[8px] p-4 flex flex-col items-start justify-between">
+              <h1 className="pb-4 font-[600] text-[18px] ">
                 Active Projects
               </h1>
-              <div className="flex justify-between flex-wrap items-center w-full h-[85%] gap-4">
-                <div className="bg-[#9108A7] texture w-[32%] rounded-[8px] h-[90%] p-[24px] pb-[10px] flex justify-center items-start flex-col gap-[36px]">
-                  <h1 className="text-[24px] font-[600] text-white">
-                    Website Design
-                  </h1>
-                  <Apex />
-                </div>
-                <div className="bg-[#84071D] texture w-[32%] rounded-[8px] h-[90%] p-[24px] pb-[10px] flex justify-center items-start flex-col gap-[36px]">
+              <div className="flex justify-between items-center flex-wrap w-full h-[280px] gap-4">
+                {projects && projects.data.length > 0 ? (
+                  projects.data.map((project: any, i: any) => {
+                    return (
+                      <div
+                        key={i}
+                        className={`${
+                          project.projectType === "Website Design"
+                            ? "bg-[#9108A7]"
+                            : project.projectType === "Graphics and Flyer Design" ? 'bg-[#0A6708]' : project.projectType === "Logo Design" ? "[#84071D]" : 'bg-blue-400'
+                        }  texture w-[32%] rounded-[8px] h-[90%] p-[24px] pb-[10px] flex justify-center items-start flex-col gap-[36px]`}
+                      >
+                        <h1 className="text-[24px] font-[600] text-white">
+                          {project.projectType}
+                        </h1>
+                        <Apex
+                          percent={
+                            project.status === "Pending"
+                              ? 25
+                              : project.status === "Ongoing"
+                              ? 50
+                              : project.status === "Completed"
+                              ? 100
+                              : 30
+                          }
+                        />
+                      </div>
+                    );
+                  })
+                ) : (
+                  <p>No active project</p>
+                )}
+                {/* <div className="bg-[#84071D] texture w-[32%] rounded-[8px] h-[90%] p-[24px] pb-[10px] flex justify-center items-start flex-col gap-[36px]">
                   <h1 className="text-[24px] font-[600] text-white">
                     Logo Design
                   </h1>
@@ -38,7 +74,7 @@ const Dashboard = () => {
                     Graphics Design
                   </h1>
                   <Apex percent={80} />
-                </div>
+                </div> */}
               </div>
             </div>
             <div className="col-span-3 bg-white rounded-[8px] p-4">

@@ -10,6 +10,7 @@ const Landing = () => {
     if (!token) {
       window.location.href = "/auth/sign-in";
     } else if (IsTokenExpired(token)) {
+      console.log('expired')
       HandleExpiredToken();
     }
   }, []);
@@ -17,7 +18,7 @@ const Landing = () => {
   return (
     <>
       <div className="lg:overflow-hidden lg:h-screen relative">
-        <div className="hidden lg:grid grid-cols-12 w-full">
+        <div className="grid grid-cols-12 w-full">
           <div className={`col-span-2 h-[85vh]`}>
             <SideNav />
           </div>

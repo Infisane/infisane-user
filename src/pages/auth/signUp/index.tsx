@@ -21,7 +21,7 @@ const SignUp = () => {
   const [state, setState] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [country, setCountry] = useState("");
-  const [company, setCompany] = useState("");
+  const [companyName, setCompanyName] = useState("");
   const [rolePosition, setRolePosition] = useState("");
   const [second, setSecond] = useState(false)
 
@@ -42,6 +42,7 @@ const SignUp = () => {
     },
     country,
     rolePosition,
+    companyName
   };
 
   const handleSignUp = async (e: { preventDefault: () => void }) => {
@@ -49,12 +50,12 @@ const SignUp = () => {
     setLoading(true);
     try {
       const response = await userSignUp(data);
+      setLoading(false);
+      navigate("/");
       toast({
         status: "success",
         description: response?.message || "Success",
       });
-      setLoading(false);
-      navigate("/auth/sign-in");
     } catch (error: any) {
       console.error("Sign Up Error", error.message);
       setLoading(false);
@@ -279,8 +280,8 @@ const SignUp = () => {
                 type="text"
                 className="bg-[#1E1E1E] w-full h-[50px] rounded-[16px] px-4 text-[14px] font-[500]"
                 placeholder="Enter your company/organization name"
-                value={company}
-                onChange={(e) => setCompany(e.target.value)}
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
               />
             </fieldset>
             <fieldset className="flex flex-col items-start gap-[6px] w-full">

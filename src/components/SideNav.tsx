@@ -1,6 +1,8 @@
 import { NavLink, useNavigate, useLocation, Link } from "react-router-dom";
 import logo from "../assets/infi.svg";
 import Cookies from "js-cookie";
+import { getUser } from "../lib/useUser";
+import { useAPI } from "../lib/useApi";
 
 type Props = {
   isActive: boolean;
@@ -9,6 +11,15 @@ type Props = {
 const SideNav = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { useQuery } = useAPI();
+
+  const { data: user } = useQuery({
+    queryKey: ["user"],
+    queryFn: () => getUser(),
+  });
+
+  console.log(user);
+
   const navLinkStyle = ({ isActive }: Props) => {
     return {
       background: isActive ? "#FFFFFF1A" : "",
@@ -17,7 +28,7 @@ const SideNav = () => {
   };
 
   function handleLogOut() {
-    Cookies.remove("jwtToken")
+    Cookies.remove("jwtToken");
     navigate("/auth/sign-in");
   }
 
@@ -214,53 +225,73 @@ const SideNav = () => {
             </div>
           </NavLink>
 
-          <NavLink style={navLinkStyle} to="/profile/personal-information" className="w-full">
+          <NavLink
+            style={navLinkStyle}
+            to="/profile/personal-information"
+            className="w-full"
+          >
             <div className="flex items-center gap-[15px] p-3">
-              <svg
-                width="48"
-                height="48"
-                viewBox="0 0 48 48"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g clip-path="url(#clip0_374_7676)">
-                  <g clip-path="url(#clip1_374_7676)">
-                    <rect width="48" height="48" rx="24" fill="#F3F3F3" />
-                    <circle cx="24" cy="51" r="21" fill="#CBD5E1" />
-                    <circle cx="24" cy="19.5" r="7.5" fill="#CBD5E1" />
+              {user && user?.data?.profilePicture.length > 4 ? (
+                <div className="relative">
+                  <div className="flex justify-center items-center w-[50px] h-[50px]">
+                    <img
+                      src={user?.data?.profilePicture}
+                      alt=""
+                      className="w-full h-full rounded-full object-cover"
+                    />
+                  </div>
+                  <div className="w-[20px] h-[20px] rounded-full absolute -right-2 bottom-1 flex justify-center items-center bg-[#CBD5E1]">
+                    <div className="h-[18px] w-[18px] rounded-full bg-[#03CA2F]"></div>
+                  </div>
+                </div>
+              ) : (
+                <svg
+                  width="48"
+                  height="48"
+                  viewBox="0 0 48 48"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_374_7676)">
+                    <g clip-path="url(#clip1_374_7676)">
+                      <rect width="48" height="48" rx="24" fill="#F3F3F3" />
+                      <circle cx="24" cy="51" r="21" fill="#CBD5E1" />
+                      <circle cx="24" cy="19.5" r="7.5" fill="#CBD5E1" />
+                    </g>
+                    <rect
+                      x="0.5"
+                      y="0.5"
+                      width="47"
+                      height="47"
+                      rx="23.5"
+                      stroke="white"
+                    />
+                    <circle
+                      cx="42"
+                      cy="42"
+                      r="5"
+                      fill="#03CA2F"
+                      stroke="white"
+                      stroke-width="2"
+                    />
                   </g>
-                  <rect
-                    x="0.5"
-                    y="0.5"
-                    width="47"
-                    height="47"
-                    rx="23.5"
-                    stroke="white"
-                  />
-                  <circle
-                    cx="42"
-                    cy="42"
-                    r="5"
-                    fill="#03CA2F"
-                    stroke="white"
-                    stroke-width="2"
-                  />
-                </g>
-                <defs>
-                  <clipPath id="clip0_374_7676">
-                    <rect width="48" height="48" fill="white" />
-                  </clipPath>
-                  <clipPath id="clip1_374_7676">
-                    <rect width="48" height="48" rx="24" fill="white" />
-                  </clipPath>
-                </defs>
-              </svg>
+                  <defs>
+                    <clipPath id="clip0_374_7676">
+                      <rect width="48" height="48" fill="white" />
+                    </clipPath>
+                    <clipPath id="clip1_374_7676">
+                      <rect width="48" height="48" rx="24" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              )}
+
               <div className="flex items-start flex-col gap-1">
                 <p className="hidden lg:block text-[12px] font-[400]">
-                  John Doe
+                  {user && user?.data?.fullName}
                 </p>
                 <p className="hidden lg:block text-[12px] font-[400]">
-                  Johndoe@gmail.com{" "}
+                  {user && user?.data?.email}{" "}
                 </p>
               </div>
             </div>

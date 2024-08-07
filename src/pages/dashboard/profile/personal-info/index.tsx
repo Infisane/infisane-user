@@ -1,31 +1,135 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { useState, useRef, FocusEvent } from "react";
+import { useState, useRef, FocusEvent, useEffect } from "react";
 import dp from "../../../../assets/dp.png";
 import upload from "../../../../assets/upload.svg";
+import { useAPI } from "../../../../lib/useApi";
+import { getUser, updateProfile, updateAddress } from "../../../../lib/useUser";
+import { useAppToast } from "../../../../lib/useAppToast";
 
 const PersonalInfo = () => {
-  const [img, setImg] = useState<any>("");
-  const photoInput: React.MutableRefObject<HTMLInputElement | null> =
-    useRef(null);
+  const [img, setImg] = useState<File | null | string>(null);
+  const [fullName, setFullName] = useState("");
+  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
+  const [city, setCity] = useState("");
+  const [state, setState] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [country, setCountry] = useState("");
+  const [companyName, setCompanyName] = useState("");
+  const [position, setPosition] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const photoInput = useRef<HTMLInputElement | null>(null);
+
+
+  const { useQuery, useAPIMutation } = useAPI();
+  const toast = useAppToast();
+
+  const { data: user } = useQuery({
+    queryKey: ["user"],
+    queryFn: () => getUser(),
+  });
+
+  console.log(user);
 
   const handleValidChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files.item(0);
+      console.log("Selected file:", file);
       setImg(file);
-      // if (file instanceof File) {
-      //   try {
-      //     const downloadURL = await upload(file);
-      //     console.log("File uploaded successfully:", downloadURL);
-      //     setImage([downloadURL]);
-      //   } catch (error) {
-      //     console.error("Error uploading file:", error);
-      //   }
-      //   if (!file) return;
-      // }
-      console.log(img);
     }
   };
+
+  console.log(img);
+  
+  useEffect(() => {
+    setFullName(user && user?.data?.fullName);
+    setUserName(user && user?.data?.userName);
+    setEmail(user && user?.data?.email);
+    setPosition(user && user?.data?.rolePosition);
+    setCompanyName(user && user?.data?.company);
+    setPhoneNumber(user && user?.data?.phoneNumber);
+    setAddress(user && user?.data?.address?.street);
+    setCity(user && user?.data?.address?.city);
+    setPostalCode(user && user?.data?.address?.postalCode);
+    setState(user && user?.data?.address?.state);
+    setCountry(user && user?.data?.address?.country);
+    setImg(user && user?.data?.profilePicture);
+  }, [user]);
+
+  const update = useAPIMutation({
+    mutationFunction: (x: any) => updateProfile(x.data),
+    onSuccessFn: (data) => {
+      setLoading(false);
+      toast({
+        status: "success",
+        description: data?.message || "Application Successful",
+      });
+      console.log(data);
+    },
+    //@ts-ignore
+    onErrorFn: () => {
+      setLoading(false);
+    },
+  });
+
+  const updateUserAddress = useAPIMutation({
+    mutationFunction: (x: any) => updateAddress(x.data),
+    onSuccessFn: (data) => {
+      setLoading(false);
+      toast({
+        status: "success",
+        description: data?.message || "Application Successful",
+      });
+      console.log(data);
+    },
+    //@ts-ignore
+    onErrorFn: () => {
+      setLoading(false);
+    },
+  });
+
+  const handleEdit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const formData = new FormData();
+    formData.append("fullName", fullName);
+    formData.append("userName", userName);
+    formData.append("company", companyName);
+    formData.append("rolePosition", position);
+
+    if (img) {
+      console.log("Appending image:", img);
+      formData.append("profilePicture", img);
+    } else {
+      console.warn("No image to append");
+    }
+
+    update.mutate({
+      data: formData
+    });
+  };
+
+    const handleAddressEdit = (e: { preventDefault: () => void }) => {
+      e.preventDefault();
+      setLoading(true);
+
+      const formData = new FormData();
+      formData.append("street", address);
+      formData.append("city", city);
+      formData.append("state", state);
+      formData.append("country", country);
+      formData.append("postalCode", postalCode);
+
+      updateUserAddress.mutate({
+        data: formData,
+      });
+    };
 
   const [isFocused, setIsFocused] = useState(false);
   console.log(isFocused);
@@ -38,6 +142,16 @@ const PersonalInfo = () => {
       setIsFocused(false);
     }
   };
+
+   const handleEditBtn = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+    if(user && user?.data?.fullName !== fullName || user?.data?.userName !== userName || user?.data?.rolePosition !== position || user?.data?.companyName !== companyName || user?.data?.profilePicture !== img) {
+      handleEdit(e)
+    }
+    if(user && user?.data?.address?.street !== address || user?.data?.address?.city !== city || user?.data?.address?.state !== state || user?.data?.address?.country !== country || user?.data?.address?.postalCode !== postalCode) {
+      handleAddressEdit(e)
+    }
+   }
 
   return (
     <>
@@ -60,7 +174,15 @@ const PersonalInfo = () => {
               ref={photoInput}
               onChange={handleValidChange}
             />
-            <img src={dp} alt="" />
+            <img
+              src={
+                user && user?.data?.profilePicture.length > 4
+                  ? user?.data?.profilePicture
+                  : dp
+              }
+              alt=""
+              className="w-[120px] h-[120px] rounded-full object-cover"
+            />
             <div className="absolute right-0 top-20 cursor-pointer">
               <img
                 src={upload}
@@ -79,8 +201,8 @@ const PersonalInfo = () => {
               <div className="relative w-full">
                 <input
                   type={"text"}
-                  // value={value}
-                  // onChange={(e) => setInputValue(e.target.value)}
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
                   onFocus={handleFocus}
                   onBlur={handleBlur}
                   className={`block px-2 pb-1 h-[52px] pt-4 w-full text-[#141417] text-[14px] outline-none bg-transparent border-2 border-gray-300 rounded-[4px] appearance-none focus:outline-none focus:ring-0 peer bg-white`}
@@ -95,8 +217,8 @@ const PersonalInfo = () => {
               <div className="relative w-full">
                 <input
                   type={"text"}
-                  // value={value}
-                  // onChange={(e) => setInputValue(e.target.value)}
+                  value={userName}
+                  onChange={(e) => setUserName(e.target.value)}
                   onFocus={handleFocus}
                   onBlur={handleBlur}
                   className={`block px-2 pb-1 h-[52px] pt-4 w-full text-[#141417] text-[14px] outline-none bg-transparent border-2 border-gray-300 rounded-[4px] appearance-none focus:outline-none focus:ring-0 peer bg-white`}
@@ -110,9 +232,8 @@ const PersonalInfo = () => {
               </div>
               <div className="relative w-full">
                 <input
-                  type={"text"}
-                  // value={value}
-                  // onChange={(e) => setInputValue(e.target.value)}
+                  type={"email"}
+                  value={email}
                   onFocus={handleFocus}
                   onBlur={handleBlur}
                   className={`block px-2 pb-1 h-[52px] pt-4 w-full text-[#141417] text-[14px] outline-none bg-transparent border-2 border-gray-300 rounded-[4px] appearance-none focus:outline-none focus:ring-0 peer bg-white`}
@@ -126,9 +247,8 @@ const PersonalInfo = () => {
               </div>
               <div className="relative w-full">
                 <input
-                  type={"text"}
-                  // value={value}
-                  // onChange={(e) => setInputValue(e.target.value)}
+                  type={"tel"}
+                  value={phoneNumber}
                   onFocus={handleFocus}
                   onBlur={handleBlur}
                   className={`block px-2 pb-1 h-[52px] pt-4 w-full text-[#141417] text-[14px] outline-none bg-transparent border-2 border-gray-300 rounded-[4px] appearance-none focus:outline-none focus:ring-0 peer bg-white`}
@@ -150,8 +270,8 @@ const PersonalInfo = () => {
                 <div className="relative w-full">
                   <input
                     type={"text"}
-                    // value={value}
-                    // onChange={(e) => setInputValue(e.target.value)}
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     className={`block px-2 pb-1 h-[52px] pt-4 w-full text-[#141417] text-[14px] outline-none bg-transparent border-2 border-gray-300 rounded-[4px] appearance-none focus:outline-none focus:ring-0 peer bg-white`}
@@ -166,8 +286,8 @@ const PersonalInfo = () => {
                 <div className="relative w-full">
                   <input
                     type={"text"}
-                    // value={value}
-                    // onChange={(e) => setInputValue(e.target.value)}
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     className={`block px-2 pb-1 h-[52px] pt-4 w-full text-[#141417] text-[14px] outline-none bg-transparent border-2 border-gray-300 rounded-[4px] appearance-none focus:outline-none focus:ring-0 peer bg-white`}
@@ -182,8 +302,8 @@ const PersonalInfo = () => {
                 <div className="relative w-full">
                   <input
                     type={"text"}
-                    // value={value}
-                    // onChange={(e) => setInputValue(e.target.value)}
+                    value={state}
+                    onChange={(e) => setState(e.target.value)}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     className={`block px-2 pb-1 h-[52px] pt-4 w-full text-[#141417] text-[14px] outline-none bg-transparent border-2 border-gray-300 rounded-[4px] appearance-none focus:outline-none focus:ring-0 peer bg-white`}
@@ -198,8 +318,8 @@ const PersonalInfo = () => {
                 <div className="relative w-full">
                   <input
                     type={"text"}
-                    // value={value}
-                    // onChange={(e) => setInputValue(e.target.value)}
+                    value={postalCode}
+                    onChange={(e) => setPostalCode(e.target.value)}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     className={`block px-2 pb-1 h-[52px] pt-4 w-full text-[#141417] text-[14px] outline-none bg-transparent border-2 border-gray-300 rounded-[4px] appearance-none focus:outline-none focus:ring-0 peer bg-white`}
@@ -214,8 +334,8 @@ const PersonalInfo = () => {
                 <div className="relative w-full">
                   <input
                     type={"text"}
-                    // value={value}
-                    // onChange={(e) => setInputValue(e.target.value)}
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     className={`block px-2 pb-1 h-[52px] pt-4 w-full text-[#141417] text-[14px] outline-none bg-transparent border-2 border-gray-300 rounded-[4px] appearance-none focus:outline-none focus:ring-0 peer bg-white`}
@@ -237,8 +357,8 @@ const PersonalInfo = () => {
                 <div className="relative w-full">
                   <input
                     type={"text"}
-                    // value={value}
-                    // onChange={(e) => setInputValue(e.target.value)}
+                    value={companyName}
+                    onChange={(e) => setCompanyName(e.target.value)}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     className={`block px-2 pb-1 h-[52px] pt-4 w-full text-[#141417] text-[14px] outline-none bg-transparent border-2 border-gray-300 rounded-[4px] appearance-none focus:outline-none focus:ring-0 peer bg-white`}
@@ -253,8 +373,8 @@ const PersonalInfo = () => {
                 <div className="relative w-full">
                   <input
                     type={"text"}
-                    // value={value}
-                    // onChange={(e) => setInputValue(e.target.value)}
+                    value={position}
+                    onChange={(e) => setPosition(e.target.value)}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     className={`block px-2 pb-1 h-[52px] pt-4 w-full text-[#141417] text-[14px] outline-none bg-transparent border-2 border-gray-300 rounded-[4px] appearance-none focus:outline-none focus:ring-0 peer bg-white`}
@@ -271,7 +391,34 @@ const PersonalInfo = () => {
               <div className="mt-[24px] flex justify-end items-center w-[500px] gap-[14px] mb-5">
                 <button className="w-[80px] h-[40px]">Cancel</button>
                 <div className="bg-[#1E1E1E] h-[18px] w-[1px]"></div>
-                <button className="h-[40px] text-white bg-dark rounded-[4px] w-[80px]">Save</button>
+                <button
+                  onClick={(e) => handleEditBtn(e)}
+                  className="h-[40px] text-white flex justify-center items-center gap-2 bg-dark rounded-[4px] w-[80px]"
+                >
+                  {loading && (
+                    <svg
+                      className="animate-spin h-5 w-5 mr-3 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      ></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8H4z"
+                      ></path>
+                    </svg>
+                  )}
+                  Save
+                </button>
               </div>
             </div>
           </form>
