@@ -8,6 +8,20 @@ import submit from "../../../assets/submit.svg";
 import { getAllProjects } from "../../../lib/useUser";
 import { useAPI } from "../../../lib/useApi";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import {
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  Autoplay,
+} from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+import "swiper/css/autoplay";
+
 const Dashboard = () => {
   const { useQuery } = useAPI();
 
@@ -28,22 +42,39 @@ const Dashboard = () => {
         <div className="p-[32px] flex flex-col w-full gap-[24px]">
           <div className="grid grid-cols-11 gap-[24px] h-full w-full">
             <div className="col-span-8 bg-white rounded-[8px] p-4 flex flex-col items-start justify-between">
-              <h1 className="pb-4 font-[600] text-[18px] ">
-                Active Projects
-              </h1>
-              <div className="flex justify-between items-center flex-wrap w-full h-[280px] gap-4">
+              <h1 className="pb-4 font-[600] text-[18px] ">Active Projects</h1>
+              <div className="flex justify-between items-center flex-wrap w-full gap-4">
                 {projects && projects.data.length > 0 ? (
-                  projects.data.map((project: any, i: any) => {
+                  projects.data.slice(0, 3).map((project: any, i: any) => {
                     return (
                       <div
                         key={i}
                         className={`${
                           project.projectType === "Website Design"
                             ? "bg-[#9108A7]"
-                            : project.projectType === "Graphics and Flyer Design" ? 'bg-[#0A6708]' : project.projectType === "Logo Design" ? "[#84071D]" : 'bg-blue-400'
-                        }  texture w-[32%] rounded-[8px] h-[90%] p-[24px] pb-[10px] flex justify-center items-start flex-col gap-[36px]`}
+                            : project.projectType ===
+                              "Graphics and Flyer Design"
+                            ? "bg-[#0A6708]"
+                            : project.projectType === "Logo Design"
+                            ? "[#84071D]"
+                            : "bg-blue-400"
+                        }  texture ${
+                          projects.data.length === 1
+                            ? "w-[100%] items-center justify-between"
+                            : projects.data.length === 2
+                            ? "w-[48%] items-center justify-between"
+                            : "w-[32%] flex-col items-start justify-center"
+                        } rounded-[8px] h-[250px] p-[24px] pb-[10px] flex gap-[36px]`}
                       >
-                        <h1 className="text-[24px] font-[600] text-white">
+                        <h1
+                          className={`${
+                            projects.data.length === 1
+                              ? " text-[48px]"
+                              : projects.data.length === 2
+                              ? " text-[40px]"
+                              : " text-[24px]"
+                          } font-[600] text-white`}
+                        >
                           {project.projectType}
                         </h1>
                         <Apex
@@ -56,25 +87,38 @@ const Dashboard = () => {
                               ? 100
                               : 30
                           }
+                          color1={
+                            project.status === "Pending"
+                              ? "#FFB822"
+                              : project.status === "Ongoing"
+                              ? "#FFB822"
+                              : project.status === "Completed"
+                              ? "#08FF03"
+                              : "#FFB822"
+                          }
+                          size={
+                            projects.data.length === 1
+                              ? 150
+                              : projects.data.length === 2
+                              ? 150
+                              : 100
+                          }
+                          strokeWidth={
+                            projects.data.length === 1
+                              ? 18
+                              : projects.data.length === 2
+                              ? 15
+                              : 13
+                          }
                         />
                       </div>
                     );
                   })
                 ) : (
-                  <p>No active project</p>
+                  <p className="text-center w-full font-semibold">
+                    No active project
+                  </p>
                 )}
-                {/* <div className="bg-[#84071D] texture w-[32%] rounded-[8px] h-[90%] p-[24px] pb-[10px] flex justify-center items-start flex-col gap-[36px]">
-                  <h1 className="text-[24px] font-[600] text-white">
-                    Logo Design
-                  </h1>
-                  <Apex percent={40} />
-                </div>
-                <div className="bg-[#0A6708] texture w-[32%] rounded-[8px] h-[90%] p-[24px] pb-[10px] flex justify-center items-start flex-col gap-[36px]">
-                  <h1 className="text-[24px] font-[600] text-white">
-                    Graphics Design
-                  </h1>
-                  <Apex percent={80} />
-                </div> */}
               </div>
             </div>
             <div className="col-span-3 bg-white rounded-[8px] p-4">
@@ -148,67 +192,103 @@ const Dashboard = () => {
           </div>
 
           <div className="grid grid-cols-10 gap-[24px] h-full w-full">
-            <div className="col-span-5  bg-white rounded-[8px] p-4 overflow-y-auto">
-              <h1 className="font-[600] text-[18px]">Tasks</h1>
+            <div className="col-span-5 bg-white rounded-[8px] px-4 pb-4 overflow-y-auto">
+              <div className="py-4 sticky top-0 bg-white z-40">
+                <h1 className="font-[600] text-[18px] z-40">Tasks</h1>
+              </div>
 
-              <div className="pt-[24px]">
-                <h1 className="pb-[40px] text-[#1E1E1E] font-[500]">
-                  Website Design
-                </h1>
-
-                <div className="flex flex-col gap-[24px] items-start w-full">
-                  <div className="flex justify-start items-center gap-4 w-full">
-                    <Apex
-                      size={64}
-                      percent={100}
-                      color1="#08FF03"
-                      text="#1E1E1E"
-                    />
-                    <p className="text-[#343A40] text-[16px] font-[500]">
-                      Research
-                    </p>
-                  </div>
-                  <div className="flex justify-start items-center gap-4 w-full">
-                    <Apex
-                      size={64}
-                      percent={100}
-                      color1="#08FF03"
-                      text="#1E1E1E"
-                    />
-                    <p className="text-[#343A40] text-[16px] font-[500]">
-                      UI Design
-                    </p>
-                  </div>{" "}
-                  <div className="flex justify-start items-center gap-4 w-full">
-                    <Apex size={64} percent={65} text="#1E1E1E" />
-                    <p className="text-[#343A40] text-[16px] font-[500]">
-                      Frontend
-                    </p>
-                  </div>{" "}
-                  <div className="flex justify-start items-center gap-4 w-full">
-                    <Apex
-                      size={64}
-                      percent={0}
-                      color1="#FF0000"
-                      color2="#FF0000"
-                      text="#1E1E1E"
-                    />
-                    <p className="text-[#343A40] text-[16px] font-[500]">
-                      Backend
-                    </p>
-                  </div>{" "}
-                  <div className="flex justify-start items-center gap-4 w-full">
-                    <Apex
-                      size={64}
-                      percent={100}
-                      color1="#08FF03"
-                      text="#1E1E1E"
-                    />
-                    <p className="text-[#343A40] text-[16px] font-[500]">
-                      Research
-                    </p>
-                  </div>
-                </div>
+              <div className="pb-[30px] max-h-[400px] relative z-0">
+                <Swiper
+                  modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
+                  spaceBetween={20}
+                  slidesPerView={1}
+                  autoplay={{
+                    delay: 5000,
+                    disableOnInteraction: false,
+                  }}
+                  pagination
+                  navigation={{
+                    nextEl: ".custom-nextt",
+                    prevEl: ".custom-prevv",
+                  }}
+                >
+                  {projects &&
+                    projects.data.map((project: any, i: any) => {
+                      return (
+                        <SwiperSlide key={i}>
+                          <h1 className=" pb-10 text-[#1E1E1E] font-[500]">
+                            {project.projectType}
+                          </h1>
+                          <div className="flex flex-col gap-[24px]  pb-5 items-start w-full">
+                            <div className="flex justify-start items-center gap-4 w-full">
+                              <Apex
+                                size={64}
+                                percent={100}
+                                color1="#08FF03"
+                                text="#1E1E1E"
+                              />
+                              <p className="text-[#343A40] text-[16px] font-[500]">
+                                Research
+                              </p>
+                            </div>
+                            <div className="flex justify-start items-center gap-4 w-full">
+                              <Apex
+                                size={64}
+                                percent={100}
+                                color1="#08FF03"
+                                text="#1E1E1E"
+                              />
+                              <p className="text-[#343A40] text-[16px] font-[500]">
+                                UI Design
+                              </p>
+                            </div>{" "}
+                            <div className="flex justify-start items-center gap-4 w-full">
+                              <Apex size={64} percent={65} text="#1E1E1E" />
+                              <p className="text-[#343A40] text-[16px] font-[500]">
+                                Frontend
+                              </p>
+                            </div>{" "}
+                            <div className="flex justify-start items-center gap-4 w-full">
+                              <Apex
+                                size={64}
+                                percent={0}
+                                color1="#FF0000"
+                                color2="#FF0000"
+                                text="#1E1E1E"
+                              />
+                              <p className="text-[#343A40] text-[16px] font-[500]">
+                                Backend
+                              </p>
+                            </div>{" "}
+                            <div className="flex justify-start items-center gap-4 w-full">
+                              <Apex
+                                size={64}
+                                percent={0}
+                                color1="#FF0000"
+                                color2="#FF0000"
+                                text="#1E1E1E"
+                              />
+                              <p className="text-[#343A40] text-[16px] font-[500]">
+                                Backend
+                              </p>
+                            </div>{" "}
+                            <div className="flex justify-start items-center gap-4 w-full">
+                              <Apex
+                                size={64}
+                                percent={100}
+                                color1="#08FF03"
+                                text="#1E1E1E"
+                              />
+                              <p className="text-[#343A40] text-[16px] font-[500]">
+                                Research
+                              </p>
+                            </div>
+                          </div>
+                        </SwiperSlide>
+                      );
+                    })}
+                  
+                </Swiper>
               </div>
             </div>
             <div className="col-span-5  bg-white rounded-[8px] p-4">

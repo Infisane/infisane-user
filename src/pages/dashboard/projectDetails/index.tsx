@@ -6,30 +6,44 @@ import send from "../../../assets/send.svg";
 import Apex from "../../../components/PieChart";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-
+import { useParams } from "react-router-dom";
+import { getSingleProject } from "../../../lib/useUser";
+import { useAPI } from "../../../lib/useApi";
 const ProjectDetails = () => {
-      const [image, setImage] = useState<File | null>();
+  const [image, setImage] = useState<File | null>();
+  const { id } = useParams();
 
-      const photoInput: React.MutableRefObject<HTMLInputElement | null> =
-        useRef(null);
-          const handleValidChange = async (
-            e: React.ChangeEvent<HTMLInputElement>
-          ) => {
-            if (e.target.files && e.target.files.length > 0) {
-              const file = e.target.files.item(0);
-              setImage(file)
-              // if (file instanceof File) {
-              //   try {
-              //     const downloadURL = await upload(file);
-              //     console.log("File uploaded successfully:", downloadURL);
-              //     setImage([downloadURL]);
-              //   } catch (error) {
-              //     console.error("Error uploading file:", error);
-              //   }
-              //   if (!file) return;
-              // }
-            }
-          };
+  console.log(id);
+
+  const { useQuery } = useAPI();
+
+  const { data: project } = useQuery({
+    queryKey: ["project"],
+    queryFn: () => getSingleProject(id ? id : '1'),
+  });
+
+  console.log(project);
+
+  const photoInput: React.MutableRefObject<HTMLInputElement | null> =
+    useRef(null);
+  const handleValidChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files.item(0);
+      setImage(file);
+      // if (file instanceof File) {
+      //   try {
+      //     const downloadURL = await upload(file);
+      //     console.log("File uploaded successfully:", downloadURL);
+      //     setImage([downloadURL]);
+      //   } catch (error) {
+      //     console.error("Error uploading file:", error);
+      //   }
+      //   if (!file) return;
+      // }
+    }
+  };
+
+  const single = project ? project.data : []
 
   return (
     <>
@@ -40,50 +54,57 @@ const ProjectDetails = () => {
 
         <div className="p-[32px]">
           <div className="flex justify-start items-center gap-1">
-            <Link to={'/project'} className="flex justify-start items-center gap-1">
-                <svg
-                  width="20"
-                  height="20"
-                  viewBox="0 0 20 20"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M2.91699 15.0003V5.83366C2.91699 2.50033 3.75033 1.66699 7.08366 1.66699H12.917C16.2503 1.66699 17.0837 2.50033 17.0837 5.83366V14.167C17.0837 14.2837 17.0837 14.4003 17.0753 14.517"
-                    stroke="#808080"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M5.29199 12.5H17.0837V15.4167C17.0837 17.025 15.7753 18.3333 14.167 18.3333H5.83366C4.22533 18.3333 2.91699 17.025 2.91699 15.4167V14.875C2.91699 13.5667 3.98366 12.5 5.29199 12.5Z"
-                    stroke="#808080"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M6.66699 5.83301H13.3337"
-                    stroke="#808080"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                  <path
-                    d="M6.66699 8.75H10.8337"
-                    stroke="#808080"
-                    stroke-width="1.5"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-                <p className="text-[#808080] font-[500] text-[16px]">Projects</p>
+            <Link
+              to={"/project"}
+              className="flex justify-start items-center gap-1"
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M2.91699 15.0003V5.83366C2.91699 2.50033 3.75033 1.66699 7.08366 1.66699H12.917C16.2503 1.66699 17.0837 2.50033 17.0837 5.83366V14.167C17.0837 14.2837 17.0837 14.4003 17.0753 14.517"
+                  stroke="#808080"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M5.29199 12.5H17.0837V15.4167C17.0837 17.025 15.7753 18.3333 14.167 18.3333H5.83366C4.22533 18.3333 2.91699 17.025 2.91699 15.4167V14.875C2.91699 13.5667 3.98366 12.5 5.29199 12.5Z"
+                  stroke="#808080"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M6.66699 5.83301H13.3337"
+                  stroke="#808080"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M6.66699 8.75H10.8337"
+                  stroke="#808080"
+                  stroke-width="1.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              <p className="text-[#808080] font-[500] text-[16px]">Projects</p>
             </Link>
             <img src={arrow} alt="" />
-            <p className="text-dark font-[500] text-[16px]">Website Design</p>
+            <p className="text-dark font-[500] text-[16px]">
+              {single.projectType}
+            </p>
           </div>
           <div className="mt-4 flex justify-between w-full items-center mb-[32px]">
-            <h1 className="text-[32px] text-dark font-[600]">Website Design</h1>
+            <h1 className="text-[32px] text-dark font-[600]">
+              {single.projectType}
+            </h1>
             <div className="flex justify-end items-center gap-4">
               <button className="flex justify-center items-center gap-2 px-[32px] h-[32px] border-dark border-[2px] rounded-[4px]">
                 <p className="text-[12px] font-[600] text-dark">Pause</p>
@@ -96,7 +117,7 @@ const ProjectDetails = () => {
           <div className="grid grid-cols-2 w-full flex-wrap gap-[24px]">
             <div className="p-[24px] rounded-[8px] bg-white border-[#D7D7D7] border-[1px]">
               <p className="text-[16px] text-dark font-[500] mb-4">
-                Website Design
+                {single.projectType}
               </p>
               <div className="flex justify-between items-center">
                 <div>
@@ -235,7 +256,24 @@ const ProjectDetails = () => {
                 <div>
                   <Apex
                     size={200}
-                    percent={90}
+                    percent={
+                      single.status === "Pending"
+                        ? 25
+                        : single.status === "Ongoing"
+                        ? 50
+                        : single.status === "Completed"
+                        ? 100
+                        : 30
+                    }
+                    color1={
+                      single.status === "Pending"
+                        ? "#FFB822"
+                        : single.status === "Ongoing"
+                        ? "#FFB822"
+                        : single.status === "Completed"
+                        ? "#08FF03"
+                        : "#FFB822"
+                    }
                     text="#1E1E1E"
                     strokeWidth={25}
                   />
@@ -263,7 +301,7 @@ const ProjectDetails = () => {
                       }
                     }}
                   >
-                    {image ? (
+                    {!image ? (
                       <>
                         <img src={img} alt="" />
                         <p className="text-[#929FA5] text-center">
@@ -328,7 +366,10 @@ const ProjectDetails = () => {
 
             <div className="mt-[60px]">
               <div className="flex justify-center items-center gap-[24px]">
-                <input type="text" className="h-[70px] border-[#989898] border-[1px] rounded-[28px] w-[60%] px-4" />
+                <input
+                  type="text"
+                  className="h-[70px] border-[#989898] border-[1px] rounded-[28px] w-[60%] px-4"
+                />
                 <img src={send} alt="" />
               </div>
             </div>
