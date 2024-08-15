@@ -3,9 +3,9 @@
 import TopNav from "../../../components/TopNav";
 import arrow from "../../../assets/arrow-right.svg";
 import { Link } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import img from "../../../assets/img.svg";
+// import img from "../../../assets/img.svg";
 import arrouDown from "../../../assets/arrow-down.svg";
 import Website from "./components/Website";
 import Graphics from "./components/Graphics";
@@ -17,26 +17,26 @@ const Forms = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState<string | null>(null);
 
-   const [image, setImage] = useState<File | null>();
+  //  const [image, setImage] = useState<File | null>();
 
-   const photoInput: React.MutableRefObject<HTMLInputElement | null> =
-     useRef(null);
-   const handleValidChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-     if (e.target.files && e.target.files.length > 0) {
-       const file = e.target.files.item(0);
-       setImage(file)
-       // if (file instanceof File) {
-       //   try {
-       //     const downloadURL = await upload(file);
-       //     console.log("File uploaded successfully:", downloadURL);
-       //     setImage([downloadURL]);
-       //   } catch (error) {
-       //     console.error("Error uploading file:", error);
-       //   }
-       //   if (!file) return;
-       // }
-     }
-   };
+  //  const photoInput: React.MutableRefObject<HTMLInputElement | null> =
+  //    useRef(null);
+  //  const handleValidChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  //    if (e.target.files && e.target.files.length > 0) {
+  //      const file = e.target.files.item(0);
+  //      setImage(file)
+  //      // if (file instanceof File) {
+  //      //   try {
+  //      //     const downloadURL = await upload(file);
+  //      //     console.log("File uploaded successfully:", downloadURL);
+  //      //     setImage([downloadURL]);
+  //      //   } catch (error) {
+  //      //     console.error("Error uploading file:", error);
+  //      //   }
+  //      //   if (!file) return;
+  //      // }
+  //    }
+  //  };
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
