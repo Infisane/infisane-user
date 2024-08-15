@@ -197,99 +197,90 @@ const Dashboard = () => {
                 <h1 className="font-[600] text-[18px] z-40">Tasks</h1>
               </div>
 
-              <div className="pb-[30px] max-h-[400px] relative z-0">
-                <Swiper
-                  modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-                  spaceBetween={20}
-                  slidesPerView={1}
-                  autoplay={{
-                    delay: 5000,
-                    disableOnInteraction: false,
-                  }}
-                  pagination
-                  navigation={{
-                    nextEl: ".custom-nextt",
-                    prevEl: ".custom-prevv",
-                  }}
-                >
-                  {projects &&
-                    projects.data.map((project: any, i: any) => {
-                      return (
-                        <SwiperSlide key={i}>
-                          <h1 className=" pb-10 text-[#1E1E1E] font-[500]">
-                            {project.projectType}
-                          </h1>
-                          <div className="flex flex-col gap-[24px]  pb-5 items-start w-full">
-                            <div className="flex justify-start items-center gap-4 w-full">
-                              <Apex
-                                size={64}
-                                percent={100}
-                                color1="#08FF03"
-                                text="#1E1E1E"
-                              />
-                              <p className="text-[#343A40] text-[16px] font-[500]">
-                                Research
-                              </p>
+              {projects && projects.data && projects.data.length > 0 ? (
+                <div className="pb-[30px] max-h-[400px] relative z-0">
+                  <Swiper
+                    modules={[
+                      Navigation,
+                      Pagination,
+                      Scrollbar,
+                      A11y,
+                      Autoplay,
+                    ]}
+                    spaceBetween={20}
+                    slidesPerView={1}
+                    autoplay={{
+                      delay: 5000,
+                      disableOnInteraction: false,
+                    }}
+                    pagination
+                    navigation={{
+                      nextEl: ".custom-nextt",
+                      prevEl: ".custom-prevv",
+                    }}
+                  >
+                    {projects &&
+                      projects.data.map((project: any, i: any) => {
+                        console.log(project.progress);
+                        const stagesArray = project.progress
+                          ? Object.entries(project.progress)
+                          : [];
+
+                        return (
+                          <SwiperSlide key={i}>
+                            <h1 className=" pb-10 text-[#1E1E1E] font-[500]">
+                              {project.projectType}
+                            </h1>
+                            <div className="flex flex-col gap-[24px] pb-5 items-start w-full">
+                              {stagesArray.map(([stage, details], index) => {
+                                const detailObj = details as {
+                                  completionPercentage: number;
+                                }; // Type assertion
+
+                                const color1 =
+                                  detailObj.completionPercentage > 0 ||
+                                  detailObj.completionPercentage < 25
+                                    ? "#FF0000"
+                                    : detailObj.completionPercentage >= 25 ||
+                                      detailObj.completionPercentage < 75
+                                    ? "#FFB822"
+                                    : detailObj.completionPercentage >= 75
+                                    ? "#08FF03"
+                                    : "#FFB822";
+                                const color2 =
+                                  detailObj.completionPercentage > 0 ||
+                                  detailObj.completionPercentage < 25
+                                    ? "#FF0000"
+                                    : "#FFB90433";
+                                return (
+                                  <div
+                                    key={index}
+                                    className="flex justify-start items-center gap-4 w-full"
+                                  >
+                                    <Apex
+                                      size={64}
+                                      percent={detailObj.completionPercentage}
+                                      color1={color1}
+                                      color2={color2}
+                                      text="#1E1E1E"
+                                    />
+                                    <p className="text-[#343A40] text-[16px] font-[500]">
+                                      {stage}
+                                    </p>
+                                  </div>
+                                );
+                              })}
                             </div>
-                            <div className="flex justify-start items-center gap-4 w-full">
-                              <Apex
-                                size={64}
-                                percent={100}
-                                color1="#08FF03"
-                                text="#1E1E1E"
-                              />
-                              <p className="text-[#343A40] text-[16px] font-[500]">
-                                UI Design
-                              </p>
-                            </div>{" "}
-                            <div className="flex justify-start items-center gap-4 w-full">
-                              <Apex size={64} percent={65} text="#1E1E1E" />
-                              <p className="text-[#343A40] text-[16px] font-[500]">
-                                Frontend
-                              </p>
-                            </div>{" "}
-                            <div className="flex justify-start items-center gap-4 w-full">
-                              <Apex
-                                size={64}
-                                percent={0}
-                                color1="#FF0000"
-                                color2="#FF0000"
-                                text="#1E1E1E"
-                              />
-                              <p className="text-[#343A40] text-[16px] font-[500]">
-                                Backend
-                              </p>
-                            </div>{" "}
-                            <div className="flex justify-start items-center gap-4 w-full">
-                              <Apex
-                                size={64}
-                                percent={0}
-                                color1="#FF0000"
-                                color2="#FF0000"
-                                text="#1E1E1E"
-                              />
-                              <p className="text-[#343A40] text-[16px] font-[500]">
-                                Backend
-                              </p>
-                            </div>{" "}
-                            <div className="flex justify-start items-center gap-4 w-full">
-                              <Apex
-                                size={64}
-                                percent={100}
-                                color1="#08FF03"
-                                text="#1E1E1E"
-                              />
-                              <p className="text-[#343A40] text-[16px] font-[500]">
-                                Research
-                              </p>
-                            </div>
-                          </div>
-                        </SwiperSlide>
-                      );
-                    })}
-                  
-                </Swiper>
-              </div>
+                          </SwiperSlide>
+                        );
+                      })}
+                  </Swiper>
+                </div>
+              ) : (
+                <p className="text-center w-full font-semibold">
+                  No active project
+                </p>
+              )}
             </div>
             <div className="col-span-5  bg-white rounded-[8px] p-4">
               <div className="flex justify-between items-center pb-[24px]">

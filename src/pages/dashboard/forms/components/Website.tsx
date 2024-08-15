@@ -11,7 +11,7 @@ const Website = () => {
   const toast = useAppToast();
 
   const [image, setImage] = useState<File | null>();
-  // const [projectName, setProjectName] = useState("");
+  const [projectName, setProjectName] = useState("");
   const [clientName, setClientName] = useState("");
   const [clientEmail, setClientEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -65,6 +65,7 @@ const Website = () => {
     const formData = new FormData();
     formData.append("clientName", clientName);
     formData.append("projectType", 'Website Design');
+    formData.append("projectName", projectName);
     formData.append("clientEmail", clientEmail);
     formData.append("phoneNumber", phoneNumber);
     formData.append("description", description);
@@ -113,6 +114,16 @@ const Website = () => {
               }}
               value={company}
               onChange={(e) => setCompany(e.target.value)}
+            />
+            <input
+              type="text"
+              className="w-full h-[52px] rounded-[4px] px-[8px] text-[14px] font-[500]"
+              placeholder="Enter project name"
+              style={{
+                boxShadow: "inset 0px 0px 4px rgba(131, 129, 142, 1)",
+              }}
+              value={projectName}
+              onChange={(e) => setProjectName(e.target.value)}
             />
             <input
               type="text"

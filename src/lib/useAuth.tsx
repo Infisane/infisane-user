@@ -42,7 +42,7 @@ export const userSignUp = async (data: SignUpProp) => {
   try {
     const response = await AxiosWithoutToken.post("/auth/signup", data,);
     console.log(response?.data?.data);
-    const { token } = response?.data?.data?.accessToken?.token;
+    const { token } = response?.data?.data?.accessToken;
     Cookies.set("jwtToken", token);
     console.log(response);
     return response.data;
