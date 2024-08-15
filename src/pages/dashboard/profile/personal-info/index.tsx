@@ -44,7 +44,6 @@ const PersonalInfo = () => {
     }
   };
 
-  console.log(img);
   
   useEffect(() => {
     setFullName(user && user?.data?.fullName);

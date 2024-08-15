@@ -585,7 +585,7 @@ const Project = () => {
                           {stagesArray.map(([stage, details], index) => {
                             const detailObj = details as {
                               completionPercentage: number;
-                            }; // Type assertion
+                            }; 
 
                             const progress =
                               detailObj.completionPercentage > 0 ||

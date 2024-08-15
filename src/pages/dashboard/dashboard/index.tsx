@@ -30,7 +30,6 @@ const Dashboard = () => {
     queryFn: () => getAllProjects(),
   });
 
-  console.log(projects);
 
   return (
     <>
@@ -64,7 +63,7 @@ const Dashboard = () => {
                             : projects.data.length === 2
                             ? "w-[48%] items-center justify-between"
                             : "w-[32%] flex-col items-start justify-center"
-                        } rounded-[8px] h-[250px] p-[24px] pb-[10px] flex gap-[36px]`}
+                        } rounded-[8px] h-[250px] p-[24px] pb-[10px] flex gap-[30px]`}
                       >
                         <h1
                           className={`${
@@ -107,7 +106,7 @@ const Dashboard = () => {
                             projects.data.length === 1
                               ? 18
                               : projects.data.length === 2
-                              ? 15
+                              ? 20
                               : 13
                           }
                         />
@@ -221,7 +220,6 @@ const Dashboard = () => {
                   >
                     {projects &&
                       projects.data.map((project: any, i: any) => {
-                        console.log(project.progress);
                         const stagesArray = project.progress
                           ? Object.entries(project.progress)
                           : [];

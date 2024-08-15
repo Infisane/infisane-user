@@ -42,7 +42,7 @@ const SignUp = () => {
     },
     country,
     rolePosition,
-    companyName
+    company: companyName
   };
 
   const handleSignUp = async (e: { preventDefault: () => void }) => {
