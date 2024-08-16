@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import TopNav from "../../../components/TopNav";
 import project from "../../../assets/project.svg";
@@ -52,6 +53,31 @@ const Project = () => {
   const handleClose1 = () => {
     setShow1(!show1);
   };
+
+  // const tot = projects?.data.map((project: any) => {
+  //   const stagesArray = project.progress
+  //     ? Object.entries(project.progress)
+  //     : [];
+
+  //   console.log(stagesArray);
+  //   stagesArray.map(([stage, details]) => {
+  //     const detailObj = details as {
+  //       completionPercentage: number;
+  //     };
+
+  //     const values = Object.values(detailObj);
+
+  //     console.log(values);
+  //     const totalPercentage = values.reduce(
+  //       (sum, item) => {
+  //         console.log(sum)
+  //         console.log(sum + " " + item)
+  //          return (sum + item.completionPercentage,
+  //       0)}
+  //     );
+  //     console.log(totalPercentage)
+  //   });
+  // });
 
   return (
     <div className="min-h-screen pb-[10%]">
@@ -567,9 +593,25 @@ const Project = () => {
           <div className="flex justify-center items-center w-full flex-wrap gap-[24px]">
             {projects &&
               projects.data.map((project: any, i: any) => {
-                 const stagesArray = project.progress
-                   ? Object.entries(project.progress)
-                   : [];
+                const stagesArray = project.progress
+                  ? Object.entries(project.progress)
+                  : [];
+
+                const totalCompletion = stagesArray.reduce(
+                  (sum, [_stage, details]) => {
+                    const detailObj = details as {
+                      completionPercentage: number;
+                    };
+                    return sum + detailObj.completionPercentage;
+                  },
+                  0
+                );
+
+                const percentage =
+                  stagesArray.length > 0
+                    ? totalCompletion / stagesArray.length
+                    : 0;
+
                 return (
                   <Link
                     key={i}
@@ -584,12 +626,12 @@ const Project = () => {
                         <div className="flex flex-col items-start gap-4">
                           {stagesArray.map(([stage, details], index) => {
                             const detailObj = details as {
+                              status: string;
                               completionPercentage: number;
-                            }; 
+                            };
 
                             const progress =
-                              detailObj.completionPercentage > 0 ||
-                              detailObj.completionPercentage < 25 ? (
+                              detailObj.status === "Pending" ? (
                                 <svg
                                   width="20"
                                   height="20"
@@ -602,8 +644,7 @@ const Project = () => {
                                     fill="#FF0000"
                                   />
                                 </svg>
-                              ) : detailObj.completionPercentage >= 25 ||
-                                detailObj.completionPercentage < 75 ? (
+                              ) : detailObj.status === "Ongoing" ? (
                                 <svg
                                   width="20"
                                   height="20"
@@ -616,7 +657,7 @@ const Project = () => {
                                     fill="#FFB904"
                                   />
                                 </svg>
-                              ) : detailObj.completionPercentage >= 75 ? (
+                              ) : detailObj.status === "Completed" ? (
                                 <svg
                                   width="20"
                                   height="20"
@@ -634,7 +675,18 @@ const Project = () => {
                                   />
                                 </svg>
                               ) : (
-                                "#FFB822"
+                                <svg
+                                  width="20"
+                                  height="20"
+                                  viewBox="0 0 20 20"
+                                  fill="none"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    d="M12.5003 18.9587H7.50033C2.97533 18.9587 1.04199 17.0253 1.04199 12.5003V7.50033C1.04199 2.97533 2.97533 1.04199 7.50033 1.04199H12.5003C17.0253 1.04199 18.9587 2.97533 18.9587 7.50033V12.5003C18.9587 17.0253 17.0253 18.9587 12.5003 18.9587ZM7.50033 2.29199C3.65866 2.29199 2.29199 3.65866 2.29199 7.50033V12.5003C2.29199 16.342 3.65866 17.7087 7.50033 17.7087H12.5003C16.342 17.7087 17.7087 16.342 17.7087 12.5003V7.50033C17.7087 3.65866 16.342 2.29199 12.5003 2.29199H7.50033Z"
+                                    fill="#FF0000"
+                                  />
+                                </svg>
                               );
 
                             return (
@@ -713,25 +765,20 @@ const Project = () => {
                       <div>
                         <Apex
                           size={150}
-                          percent={
-                            project.status === "Pending"
-                              ? 25
-                              : project.status === "Ongoing"
-                              ? 50
-                              : project.status === "Completed"
-                              ? 100
-                              : 30
-                          }
+                          percent={percentage}
                           text="#1E1E1E"
                           color1={
-                            project.status === "Pending"
+                            percentage === 0
+                              ? "#FF0000"
+                              : percentage < 25
                               ? "#FFB822"
-                              : project.status === "Ongoing"
+                              : percentage >= 25 && percentage < 75
                               ? "#FFB822"
-                              : project.status === "Completed"
+                              : percentage >= 75
                               ? "#08FF03"
-                              : "#FFB822"
+                              : "#FF0000"
                           }
+                          color2={percentage === 0 ? "#FF0000" : "#FFB90433"}
                           strokeWidth={25}
                         />
                       </div>
@@ -741,7 +788,9 @@ const Project = () => {
               })}
           </div>
         ) : (
-          <p className="text-center w-full font-semibold text-[20px]">No active project</p>
+          <p className="text-center w-full font-semibold text-[20px]">
+            No active project
+          </p>
         )}
       </div>
     </div>

@@ -98,3 +98,35 @@ export async function changePassword(currentPassword: string, newPassword: strin
 
   return response.data;
 }
+
+export async function pauseProject(id: string) {
+  const response = await AxiosWithImageToken().post(
+    `project/${id}/pause`
+  );
+
+  return response.data;
+}
+
+export async function resumeProject(id: string) {
+  const response = await AxiosWithImageToken().post(
+    `project/${id}/resume`
+  );
+
+  return response.data;
+}
+
+export async function getRecentActivities () {
+  const response = await AxiosWithToken().get(
+    `/project/recent-activities`
+  );
+
+  return response.data;
+}
+
+export async function getSingleRecentActivities(id: string) {
+  const response = await AxiosWithToken().get(
+    `/project/${id}/recent-activities`
+  );
+
+  return response.data;
+}

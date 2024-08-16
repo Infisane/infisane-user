@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Link } from "react-router-dom";
 import TopNav from "../../../components/TopNav";
@@ -5,7 +6,7 @@ import Apex from "../../../components/PieChart";
 import resume from "../../../assets/resume.svg";
 import pause from "../../../assets/pause.svg";
 import submit from "../../../assets/submit.svg";
-import { getAllProjects } from "../../../lib/useUser";
+import { getAllProjects, getRecentActivities } from "../../../lib/useUser";
 import { useAPI } from "../../../lib/useApi";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -30,6 +31,26 @@ const Dashboard = () => {
     queryFn: () => getAllProjects(),
   });
 
+  const { data: recentActivity } = useQuery({
+    queryKey: ["recentActivity"],
+    queryFn: () => getRecentActivities(),
+  });
+
+  console.log(recentActivity);
+
+  // // Original date string
+  // const originalDate = "2024-08-15T22:52:28.109Z";
+
+  // // Convert to Date object
+  // const dateObj = new Date(originalDate);
+
+  // // Get the day, month, and year
+  // const day = dateObj.getUTCDate();
+  // const month = dateObj.getUTCMonth() + 1; // Months are zero-based
+  // const year = dateObj.getUTCFullYear();
+
+  // // Format the date as dd/mm/yyyy
+  // const formattedDate = `${day}/${month}/${year}`;
 
   return (
     <>
@@ -44,7 +65,25 @@ const Dashboard = () => {
               <h1 className="pb-4 font-[600] text-[18px] ">Active Projects</h1>
               <div className="flex justify-between items-center flex-wrap w-full gap-4">
                 {projects && projects.data.length > 0 ? (
-                  projects.data.slice(0, 3).map((project: any, i: any) => {
+                  projects.data.map((project: any, i: any) => {
+                    const stagesArray = project.progress
+                      ? Object.entries(project.progress)
+                      : [];
+
+                    const totalCompletion = stagesArray.reduce(
+                      (sum, [_stage, details]) => {
+                        const detailObj = details as {
+                          completionPercentage: number;
+                        };
+                        return sum + detailObj.completionPercentage;
+                      },
+                      0
+                    );
+
+                    const percentage =
+                      stagesArray.length > 0
+                        ? totalCompletion / stagesArray.length
+                        : 0;
                     return (
                       <div
                         key={i}
@@ -77,24 +116,19 @@ const Dashboard = () => {
                           {project.projectType}
                         </h1>
                         <Apex
-                          percent={
-                            project.status === "Pending"
-                              ? 25
-                              : project.status === "Ongoing"
-                              ? 50
-                              : project.status === "Completed"
-                              ? 100
-                              : 30
-                          }
+                          percent={percentage}
                           color1={
-                            project.status === "Pending"
+                            percentage === 0
+                              ? "#FF0000"
+                              : percentage < 25
                               ? "#FFB822"
-                              : project.status === "Ongoing"
+                              : percentage >= 25 && percentage < 75
                               ? "#FFB822"
-                              : project.status === "Completed"
+                              : percentage >= 75
                               ? "#08FF03"
-                              : "#FFB822"
+                              : "#FF0000"
                           }
+                          color2={percentage === 0 ? "#FF0000" : "#FFB90433"}
                           size={
                             projects.data.length === 1
                               ? 150
@@ -193,7 +227,7 @@ const Dashboard = () => {
           <div className="grid grid-cols-10 gap-[24px] h-full w-full">
             <div className="col-span-5 bg-white rounded-[8px] px-4 pb-4 overflow-y-auto">
               <div className="py-4 sticky top-0 bg-white z-40">
-                <h1 className="font-[600] text-[18px] z-40">Tasks</h1>
+                <h1 className="font-[600] text-[18px] z-[30]">Tasks</h1>
               </div>
 
               {projects && projects.data && projects.data.length > 0 ? (
@@ -236,18 +270,19 @@ const Dashboard = () => {
                                 }; // Type assertion
 
                                 const color1 =
-                                  detailObj.completionPercentage > 0 ||
-                                  detailObj.completionPercentage < 25
+                                  detailObj.completionPercentage === 0
                                     ? "#FF0000"
-                                    : detailObj.completionPercentage >= 25 ||
+                                    : detailObj.completionPercentage < 25
+                                    ? "#FFB822"
+                                    : detailObj.completionPercentage >= 25 &&
                                       detailObj.completionPercentage < 75
                                     ? "#FFB822"
                                     : detailObj.completionPercentage >= 75
                                     ? "#08FF03"
-                                    : "#FFB822";
+                                    : "#FF0000";
+
                                 const color2 =
-                                  detailObj.completionPercentage > 0 ||
-                                  detailObj.completionPercentage < 25
+                                  detailObj.completionPercentage === 0
                                     ? "#FF0000"
                                     : "#FFB90433";
                                 return (
