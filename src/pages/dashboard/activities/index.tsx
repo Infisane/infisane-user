@@ -11,10 +11,10 @@ import { useAPI } from "../../../lib/useApi";
 import { getNotifications } from "../../../lib/useUser";
 
 const Activities = () => {
-    const { useQuery } = useAPI();
+  const { useQuery } = useAPI();
   const navigate = useNavigate();
   const location = useLocation();
-  const [filter, setFilter] = useState<string | null>('');
+  const [filter, setFilter] = useState<string | null>("");
   const [type, setType] = useState("All");
   const [isOpen, setIsOpen] = useState(false);
 
@@ -73,23 +73,24 @@ const Activities = () => {
     },
   ];
 
-      const { data: notifications } = useQuery({
-        queryKey: ["notifications"],
-        queryFn: () => getNotifications(),
-      });
+  const { data: notifications } = useQuery({
+    queryKey: ["notifications"],
+    queryFn: () => getNotifications(),
+  });
 
-      console.log(notifications);
+  console.log(notifications);
 
+  console.log(filter);
 
-  console.log(filter)
-
-  const pauseProject = notifications && notifications.filter(
-    (project: any) => project.title === "Project Paused"
-  );
-  const resumedProject = notifications && notifications.filter(
-    (project: any) => project.title === "Project Resumed"
-  );
-  const paidProject = notifications && notifications.filter((project: any) => project.title === "Made Payment");
+  const pauseProject =
+    notifications &&
+    notifications.filter((project: any) => project.title === "Project Paused");
+  const resumedProject =
+    notifications &&
+    notifications.filter((project: any) => project.title === "Project Resumed");
+  const paidProject =
+    notifications &&
+    notifications.filter((project: any) => project.title === "Made Payment");
 
   return (
     <>
@@ -145,8 +146,21 @@ const Activities = () => {
         </div>
 
         <div className="flex flex-col w-full items-start">
-          {filter === "all" || filter === null && notifications &&
+          {(filter === "all" || filter === null) &&
+            notifications &&
             notifications.map((item: any, i: any) => {
+              const originalDate = item.createdAt;
+
+              // Convert to Date object
+              const dateObj = new Date(originalDate);
+
+              // Get the day, month, and year
+              const day = dateObj.getUTCDate();
+              const month = dateObj.getUTCMonth() + 1; // Months are zero-based
+              const year = dateObj.getUTCFullYear();
+
+              // Format the date as dd/mm/yyyy
+              const formattedDate = `${day}/${month}/${year}`;
               return (
                 <div
                   className="pt-4 pb-6 border-y-[1px] border-y-[#B9B9B9] w-full flex justify-between items-start"
@@ -168,19 +182,31 @@ const Activities = () => {
                         {item.type}
                       </h1>
                       <p className="text-[#343A4080] text-[16px] font-[500]">
-                        {item.title}
+                        {item.message}
                       </p>
                     </div>
                   </div>
 
                   <p className="text-[#B9B9B9] text-[12px] font-[500]">
-                    {item.date}
+                    {formattedDate}
                   </p>
                 </div>
               );
             })}
           {filter === "paid" &&
             paidProject.map((item: any, i: any) => {
+              const originalDate = item.createdAt;
+
+              // Convert to Date object
+              const dateObj = new Date(originalDate);
+
+              // Get the day, month, and year
+              const day = dateObj.getUTCDate();
+              const month = dateObj.getUTCMonth() + 1; // Months are zero-based
+              const year = dateObj.getUTCFullYear();
+
+              // Format the date as dd/mm/yyyy
+              const formattedDate = `${day}/${month}/${year}`;
               return (
                 <div
                   className="pt-4 pb-6 border-y-[1px] border-y-[#B9B9B9] w-full flex justify-between items-start"
@@ -194,19 +220,31 @@ const Activities = () => {
                         {item.type}
                       </h1>
                       <p className="text-[#343A4080] text-[16px] font-[500]">
-                        {item.title}
+                        {item.message}
                       </p>
                     </div>
                   </div>
 
                   <p className="text-[#B9B9B9] text-[12px] font-[500]">
-                    {item.date}
+                    {formattedDate}
                   </p>
                 </div>
               );
             })}
           {filter === "paused" &&
             pauseProject.map((item: any, i: any) => {
+              const originalDate = item.createdAt;
+
+              // Convert to Date object
+              const dateObj = new Date(originalDate);
+
+              // Get the day, month, and year
+              const day = dateObj.getUTCDate();
+              const month = dateObj.getUTCMonth() + 1; // Months are zero-based
+              const year = dateObj.getUTCFullYear();
+
+              // Format the date as dd/mm/yyyy
+              const formattedDate = `${day}/${month}/${year}`;
               return (
                 <div
                   className="pt-4 pb-6 border-y-[1px] border-y-[#B9B9B9] w-full flex justify-between items-start"
@@ -220,13 +258,13 @@ const Activities = () => {
                         {item.type}
                       </h1>
                       <p className="text-[#343A4080] text-[16px] font-[500]">
-                        {item.title}
+                        {item.message}
                       </p>
                     </div>
                   </div>
 
                   <p className="text-[#B9B9B9] text-[12px] font-[500]">
-                    {item.date}
+                    {formattedDate}
                   </p>
                 </div>
               );
@@ -234,6 +272,18 @@ const Activities = () => {
 
           {filter === "resumed" &&
             resumedProject.map((item: any, i: any) => {
+              const originalDate = item.createdAt;
+
+              // Convert to Date object
+              const dateObj = new Date(originalDate);
+
+              // Get the day, month, and year
+              const day = dateObj.getUTCDate();
+              const month = dateObj.getUTCMonth() + 1; // Months are zero-based
+              const year = dateObj.getUTCFullYear();
+
+              // Format the date as dd/mm/yyyy
+              const formattedDate = `${day}/${month}/${year}`;
               return (
                 <div
                   className="pt-4 pb-6 border-y-[1px] border-y-[#B9B9B9] w-full flex justify-between items-start"
@@ -247,13 +297,13 @@ const Activities = () => {
                         {item.type}
                       </h1>
                       <p className="text-[#343A4080] text-[16px] font-[500]">
-                        {item.title}
+                        {item.message}
                       </p>
                     </div>
                   </div>
 
                   <p className="text-[#B9B9B9] text-[12px] font-[500]">
-                    {item.date}
+                    {formattedDate}
                   </p>
                 </div>
               );
