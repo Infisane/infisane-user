@@ -23,7 +23,6 @@ export async function getUser() {
   return response.data;
 }
 
-
 export const updateProfile = async (data: SignUpProp) => {
   try {
     const response = await AxiosWithImageToken().put(
@@ -37,7 +36,6 @@ export const updateProfile = async (data: SignUpProp) => {
     throw new Error(error.response.data.message); // Throw an error with the specific message
   }
 };
-
 
 export const updateAddress = async (data: AddressProps) => {
   try {
@@ -56,7 +54,7 @@ export async function getAllProjects() {
   return response.data;
 }
 
-export async function getSingleProject(id:string) {
+export async function getSingleProject(id: string) {
   const response = await AxiosWithToken().get(`/project/user/${id}`);
 
   return response.data;
@@ -89,7 +87,11 @@ export async function createLogo(data: any) {
   return response.data;
 }
 
-export async function changePassword(currentPassword: string, newPassword: string, confirmPassword: string ) {
+export async function changePassword(
+  currentPassword: string,
+  newPassword: string,
+  confirmPassword: string
+) {
   const response = await AxiosWithToken().put(`/users/change-password`, {
     currentPassword,
     newPassword,
@@ -100,25 +102,25 @@ export async function changePassword(currentPassword: string, newPassword: strin
 }
 
 export async function pauseProject(id: string) {
-  const response = await AxiosWithImageToken().post(
-    `project/${id}/pause`
-  );
+  const response = await AxiosWithImageToken().post(`project/${id}/pause`);
 
   return response.data;
 }
 
 export async function resumeProject(id: string) {
-  const response = await AxiosWithImageToken().post(
-    `project/${id}/resume`
-  );
+  const response = await AxiosWithImageToken().post(`project/${id}/resume`);
 
   return response.data;
 }
 
-export async function getRecentActivities () {
-  const response = await AxiosWithToken().get(
-    `/project/recent-activities`
-  );
+export async function getRecentActivities() {
+  const response = await AxiosWithToken().post(`/project/recent-activities`);
+
+  return response.data;
+}
+
+export async function getNotifications() {
+  const response = await AxiosWithToken().get(`/notifications`);
 
   return response.data;
 }
@@ -126,6 +128,25 @@ export async function getRecentActivities () {
 export async function getSingleRecentActivities(id: string) {
   const response = await AxiosWithToken().get(
     `/project/${id}/recent-activities`
+  );
+
+  return response.data;
+}
+
+export async function selectNotification(emailNotifications: boolean) {
+  const response = await AxiosWithToken().patch(
+    `/users/notification-preferences`,
+    {
+      emailNotifications,
+    }
+  );
+
+  return response.data;
+}
+
+export async function readNotification(id: string) {
+  const response = await AxiosWithToken().patch(
+    `/notifications/${id}/read`
   );
 
   return response.data;

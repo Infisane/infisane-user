@@ -7,8 +7,11 @@ import arrouDown from "../../../assets/arrow-down.svg";
 import resume from "../../../assets/resume.svg";
 import pause from "../../../assets/pause.svg";
 import submit from "../../../assets/submit.svg";
+import { useAPI } from "../../../lib/useApi";
+import { getNotifications } from "../../../lib/useUser";
 
 const Activities = () => {
+    const { useQuery } = useAPI();
   const navigate = useNavigate();
   const location = useLocation();
   const [filter, setFilter] = useState<string | null>('');
@@ -70,95 +73,23 @@ const Activities = () => {
     },
   ];
 
-  const data = [
-    {
-      id: 1,
-      title: "Designed a new website for our business",
-      type: "Made Payment",
-      date: "2022-08-15",
-      icon: submit,
-    },
-    {
-      id: 2,
-      title: "Designed a new website for our business",
-      type: "Paused Project",
-      date: "2022-08-15",
-      icon: pause,
-    },
-    {
-      id: 3,
-      title: "Designed a new website for our business",
-      type: "Resumed Project",
-      date: "2022-08-15",
-      icon: resume,
-    },
-    {
-      id: 3,
-      title: "Designed a new website for our business",
-      type: "Made Payment",
-      date: "2022-08-15",
-      icon: submit,
-    },
-    {
-      id: 4,
-      title: "Designed a new website for our business",
-      type: "Paused Project",
-      date: "2022-08-15",
-      icon: pause,
-    },
-    {
-      id: 5,
-      title: "Designed a new website for our business",
-      type: "Made Payment",
-      date: "2022-08-15",
-      icon: submit,
-    },
-    {
-      id: 6,
-      title: "Designed a new website for our business",
-      type: "Made Payment",
-      date: "2022-08-15",
-      icon: submit,
-    },
-    {
-      id: 7,
-      title: "Designed a new website for our business",
-      type: "Resume Project",
-      date: "2022-08-15",
-      icon: resume,
-    },
-    {
-      id: 8,
-      title: "Designed a new website for our business",
-      type: "Paused Project",
-      date: "2022-08-15",
-      icon: pause,
-    },
-    {
-      id: 9,
-      title: "Designed a new website for our business",
-      type: "Resumed Project",
-      date: "2022-08-15",
-      icon: resume,
-    },
-    {
-      id: 10,
-      title: "Designed a new website for our business",
-      type: "Made Payment",
-      date: "2022-08-15",
-      icon: submit,
-    },
-  ];
+      const { data: notifications } = useQuery({
+        queryKey: ["notifications"],
+        queryFn: () => getNotifications(),
+      });
+
+      console.log(notifications);
+
 
   console.log(filter)
 
-  const pauseProject = data.filter(
-    (project) => project.type === "Paused Project"
+  const pauseProject = notifications && notifications.filter(
+    (project: any) => project.title === "Project Paused"
   );
-  const resumedProject = data.filter(
-    (project) => project.type === "Resumed Project"
+  const resumedProject = notifications && notifications.filter(
+    (project: any) => project.title === "Project Resumed"
   );
-  const paidProject = data.filter((project) => project.type === "Made Payment");
+  const paidProject = notifications && notifications.filter((project: any) => project.title === "Made Payment");
 
   return (
     <>
@@ -214,16 +145,24 @@ const Activities = () => {
         </div>
 
         <div className="flex flex-col w-full items-start">
-          {filter === "all" || filter === null &&
-            data.map((item: any, i: any) => {
+          {filter === "all" || filter === null && notifications &&
+            notifications.map((item: any, i: any) => {
               return (
                 <div
                   className="pt-4 pb-6 border-y-[1px] border-y-[#B9B9B9] w-full flex justify-between items-start"
                   key={i}
                 >
                   <div className="flex justify-start items-start gap-5">
-                    <img src={item.icon} alt="" />
-
+                    <img
+                      src={
+                        item.title === "Project Paused"
+                          ? pause
+                          : item.title === "Project Resumed"
+                          ? resume
+                          : submit
+                      }
+                      alt=""
+                    />
                     <div>
                       <h1 className="text-[#343A40] text-[16px] font-[500]">
                         {item.type}
@@ -248,7 +187,7 @@ const Activities = () => {
                   key={i}
                 >
                   <div className="flex justify-start items-start gap-5">
-                    <img src={item.icon} alt="" />
+                    <img src={submit} alt="" />
 
                     <div>
                       <h1 className="text-[#343A40] text-[16px] font-[500]">
@@ -274,7 +213,7 @@ const Activities = () => {
                   key={i}
                 >
                   <div className="flex justify-start items-start gap-5">
-                    <img src={item.icon} alt="" />
+                    <img src={pause} alt="" />
 
                     <div>
                       <h1 className="text-[#343A40] text-[16px] font-[500]">
@@ -301,7 +240,7 @@ const Activities = () => {
                   key={i}
                 >
                   <div className="flex justify-start items-start gap-5">
-                    <img src={item.icon} alt="" />
+                    <img src={resume} alt="" />
 
                     <div>
                       <h1 className="text-[#343A40] text-[16px] font-[500]">

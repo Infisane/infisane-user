@@ -6,7 +6,7 @@ import Apex from "../../../components/PieChart";
 import resume from "../../../assets/resume.svg";
 import pause from "../../../assets/pause.svg";
 import submit from "../../../assets/submit.svg";
-import { getAllProjects, getRecentActivities } from "../../../lib/useUser";
+import { getAllProjects, getNotifications } from "../../../lib/useUser";
 import { useAPI } from "../../../lib/useApi";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -31,26 +31,14 @@ const Dashboard = () => {
     queryFn: () => getAllProjects(),
   });
 
-  const { data: recentActivity } = useQuery({
-    queryKey: ["recentActivity"],
-    queryFn: () => getRecentActivities(),
-  });
+    const { data: notifications } = useQuery({
+      queryKey: ["notifications"],
+      queryFn: () => getNotifications(),
+    });
 
-  console.log(recentActivity);
+    console.log(notifications);
 
-  // // Original date string
-  // const originalDate = "2024-08-15T22:52:28.109Z";
-
-  // // Convert to Date object
-  // const dateObj = new Date(originalDate);
-
-  // // Get the day, month, and year
-  // const day = dateObj.getUTCDate();
-  // const month = dateObj.getUTCMonth() + 1; // Months are zero-based
-  // const year = dateObj.getUTCFullYear();
-
-  // // Format the date as dd/mm/yyyy
-  // const formattedDate = `${day}/${month}/${year}`;
+  // // Original date strin
 
   return (
     <>
@@ -328,83 +316,56 @@ const Dashboard = () => {
                 </Link>
               </div>
               <div className="flex flex-col gap-[24px] w-full items-start">
-                <div className="flex justify-between items-center w-full">
-                  <div className="flex justify-start gap-5 items-center">
-                    <img src={pause} alt="" />
+                {notifications && notifications.length > 0 ? (
+                  notifications.map((notification: any, i: any) => {
+                    const originalDate = notification.createdAt;
 
-                    <p className="text-[#343A40] font-[500]">Paused Project</p>
-                  </div>
-                  <p className="text-[12px] text-[#B9B9B9] font-[500]">
-                    19/6/2024
+                    // Convert to Date object
+                    const dateObj = new Date(originalDate);
+
+                    // Get the day, month, and year
+                    const day = dateObj.getUTCDate();
+                    const month = dateObj.getUTCMonth() + 1; // Months are zero-based
+                    const year = dateObj.getUTCFullYear();
+
+                    // Format the date as dd/mm/yyyy
+                    const formattedDate = `${day}/${month}/${year}`;
+                    return (
+                      <>
+                        <div
+                          className="flex justify-between items-center w-full"
+                          key={i}
+                        >
+                          <div className="flex justify-start gap-5 items-center">
+                            <img
+                              src={
+                                notification.title === "Project Paused"
+                                  ? pause
+                                  : notification.title === "Project Resumed"
+                                  ? resume
+                                  : submit
+                              }
+                              alt=""
+                            />
+
+                            <p className="text-[#343A40] font-[500]">
+                              {notification.title}
+                            </p>
+                          </div>
+                          <p className="text-[12px] text-[#B9B9B9] font-[500]">
+                            {formattedDate}
+                          </p>
+                        </div>
+                        <div className="w-full h-[1px] bg-[#E9E9E9]"></div>
+                      </>
+                    );
+                  })
+                ) : (
+                  <p className="text-center w-full font-semibold">
+                    No recent activity
                   </p>
-                </div>
+                )}
 
-                <div className="w-full h-[1px] bg-[#E9E9E9]"></div>
-
-                <div className="flex justify-between items-center w-full">
-                  <div className="flex justify-start gap-5 items-center">
-                    <img src={submit} alt="" />
-                    <p className="text-[#343A40] font-[500]">
-                      Submitted a form
-                    </p>
-                  </div>
-                  <p className="text-[12px] text-[#B9B9B9] font-[500]">
-                    19/6/2024
-                  </p>
-                </div>
-
-                <div className="w-full h-[1px] bg-[#E9E9E9]"></div>
-
-                <div className="flex justify-between items-center w-full">
-                  <div className="flex justify-start gap-5 items-center">
-                    <img src={resume} alt="" />
-                    <p className="text-[#343A40] font-[500]">Resumed Project</p>
-                  </div>
-                  <p className="text-[12px] text-[#B9B9B9] font-[500]">
-                    19/6/2024
-                  </p>
-                </div>
-
-                <div className="w-full h-[1px] bg-[#E9E9E9]"></div>
-
-                <div className="flex justify-between items-center w-full">
-                  <div className="flex justify-start gap-5 items-center">
-                    <img src={submit} alt="" />
-                    <p className="text-[#343A40] font-[500]">
-                      Submitted a Form
-                    </p>
-                  </div>
-                  <p className="text-[12px] text-[#B9B9B9] font-[500]">
-                    19/6/2024
-                  </p>
-                </div>
-
-                <div className="w-full h-[1px] bg-[#E9E9E9]"></div>
-
-                <div className="flex justify-between items-center w-full">
-                  <div className="flex justify-start gap-5 items-center">
-                    <img src={pause} alt="" />
-
-                    <p className="text-[#343A40] font-[500]">Paused Project</p>
-                  </div>
-                  <p className="text-[12px] text-[#B9B9B9] font-[500]">
-                    19/6/2024
-                  </p>
-                </div>
-
-                <div className="w-full h-[1px] bg-[#E9E9E9]"></div>
-
-                <div className="flex justify-between items-center w-full">
-                  <div className="flex justify-start gap-5 items-center">
-                    <img src={resume} alt="" />
-                    <p className="text-[#343A40] font-[500]">Resumed Project</p>
-                  </div>
-                  <p className="text-[12px] text-[#B9B9B9] font-[500]">
-                    19/6/2024
-                  </p>
-                </div>
-
-                <div className="w-full h-[1px] bg-[#E9E9E9]"></div>
               </div>
             </div>
           </div>

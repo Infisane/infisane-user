@@ -1,16 +1,66 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+import { useEffect, useState } from "react";
+import { getUser, selectNotification } from "../../../../lib/useUser";
+import { useAPI } from "../../../../lib/useApi";
+import { useAppToast } from "../../../../lib/useAppToast";
 
 const Notification = () => {
+  const { useAPIMutation, useQuery, queryClient } = useAPI();
+  const toast = useAppToast();
   const [isEmail, setIsEmail] = useState(false);
   const [isText, setIsText] = useState(false);
 
-  const handleEmailChange = () => {
-    setIsEmail(!isEmail);
-  };
+  const { data: user } = useQuery({
+    queryKey: ["user"],
+    queryFn: () => getUser(),
+  });
+
+  useEffect(() => {
+    if (user && user?.data?.emailNotifications) {
+      setIsEmail(true);
+    } else {
+      setIsEmail(false);
+    }
+  }, [user]);
 
   const handleTextChange = () => {
     setIsText(!isText);
   };
+
+  const update = useAPIMutation({
+    mutationFunction: (x: any) => selectNotification(x.emailNotifications),
+    onSuccessFn: (data) => {
+      toast({
+        status: "success",
+        description: data?.message || "Application Successful",
+      });
+      console.log(data);
+      queryClient.invalidateQueries({ queryKey: ["user"] }).then(() => {
+        queryClient.refetchQueries({
+          queryKey: ["user"],
+          type: "active",
+        });
+      });
+    },
+    //@ts-ignore
+    onErrorFn: () => {},
+  });
+
+  const onSubmit = (e: { preventDefault: () => void }, mail:boolean) => {
+    e.preventDefault();
+    update.mutate({
+      emailNotifications: mail,
+    });
+  };
+
+const handleEmailChange = (e: any) => {
+  const newIsEmail = !isEmail; // Toggle the current state first
+  setIsEmail(newIsEmail); // Update the state
+  onSubmit(e, newIsEmail); // Pass the updated state to onSubmit
+};
+
+  console.log(isEmail)
 
   return (
     <>
@@ -38,7 +88,7 @@ const Notification = () => {
                   role="switch"
                   id="flexSwitchCheckDefault"
                   checked={isEmail}
-                  onChange={handleEmailChange}
+                  onChange={(e) => handleEmailChange(e)}
                 />
               </div>
               <div className="flex flex-col items-start gap-1">
@@ -73,6 +123,6 @@ const Notification = () => {
       </div>
     </>
   );
-}
- 
+};
+
 export default Notification;
