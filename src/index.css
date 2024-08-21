@@ -1,3 +1,201 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg {
+  background-image: url("../src/assets/bg.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+}
+
+.contact {
+  background-image: url("../src/assets/contact.png");
+  background-repeat: no-repeat;
+  /* background-position: center; */
+  background-size: cover;
+  min-height: 140vh;
+}
+
+.about {
+  background-image: url("../src/assets/about.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+}
+
+.project {
+  background-image: url("../src/assets/project.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+}
+
+.vector {
+  background-image: url("../src/assets/Vector\ 1.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.bgContainer {
+  background-image: url("../src/assets/bg.png");
+  background-repeat: no-repeat;
+  background-position: 30% 105%;
+  background-size: 100%;
+}
+
+.logoContainer {
+  background-image: url("../src/assets/logoBg.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.auth {
+  background-image: url("../src/assets/auth.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+}
+
+.graContainer {
+  background-image: url("../src/assets/graBg.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.webContainer {
+  background-image: url("../src/assets/webContainer.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.buttonGradient {
+  background-image: linear-gradient(to right, black, #54a7ff, black);
+}
+
+.btnGradient {
+  background-image: linear-gradient(to right, black, #54a7ff);
+}
+
+.achieveGradient {
+  background-image: linear-gradient(to right, #004a99, white, #004a99);
+}
+
+.parallax {
+  overflow: hidden;
+  letter-spacing: -2px;
+  line-height: 0.8;
+  margin: 0;
+  white-space: nowrap;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.parallax .scroller {
+  font-weight: 600;
+  display: flex;
+  white-space: nowrap;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+/* MySwiper.css */
+
+.swiper-container {
+  position: relative;
+  padding-bottom: 60px; /* Add padding to make space for navigation and pagination */
+}
+
+/* Custom Navigation */
+.custom-navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.custom-prev,
+.custom-next {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  margin: 0 10px;
+}
+
+/* Custom Pagination */
+.custom-pagination {
+  display: flex;
+  /* width: fit-content; */
+  justify-content: center;
+  gap: 5px;
+  /* margin-top: 10px; */
+  width: 10%;
+}
+
+.custom-pagination .swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  border-radius: 50%;
+  opacity: 0.3;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.custom-pagination .swiper-pagination-bullet-active {
+  opacity: 1;
+}
+
+#tsparticles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.line {
+  width: 20px;
+  height: 3px;
+  margin: 6px 0;
+  transition: 0.4s;
+}
+
+.hamburger-menu.open .line:nth-child(1) {
+  transform: rotate(-45deg) translate(6px, 12px);
+}
+
+.hamburger-menu.open .line:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger-menu.open .line:nth-child(3) {
+  transform: rotate(45deg) translate(6px, -12px);
+}
+
+.chat {
+  background-image: url("../src/assets/chatBg.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.texture {
+  background-image: url("../src/assets/texture.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.grad {
+   background-image: url("../src/assets/card.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
